@@ -1,11 +1,10 @@
-import mongoose from "mongoose";
+import { app } from "./app.js";
+import connectToDB from "./src/db/db.js";
 
-const connectToDB = async () => {
-  try {
-    const conn = await mongoose.connect();
-    console.log("MongoDB Connection Host: ", conn.connection.host);
-  } catch (error) {
-    console.error("connectToDB Error: ", error);
-    process.exit(1);
-  }
-};
+connectToDB()
+  .then(() => {
+    app.listen(process.env.PORT, () => {
+      console.log("‣ Server running on Port: ", process.env.PORT);
+    });
+  })
+  .catch((err) => console.error("‣ MongoDB Connection Error: ", err));
