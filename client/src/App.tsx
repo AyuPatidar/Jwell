@@ -7,15 +7,19 @@ import SaleOrdersPage from "./pages/SaleOrdersPage";
 import PurchaseOrdersPage from "./pages/PurchaseOrdersPage";
 import AgentPage from "./pages/AgentPage";
 import CustomerPage from "./pages/CustomerPage";
+import AgentForm from "./pages/AgentForm";
+import CustomerForm from "./pages/CustomerForm";
 
 const routes = [
   { path: "/", element: <HomePage /> },
   { path: "/agents", element: <AgentsPage /> },
-  { path: "/agents/:phoneNo", element: <AgentPage /> },
+  { path: "/agents/form", element: <AgentForm /> },
   { path: "/customers", element: <CustomersPage /> },
-  { path: "/customers/:phoneNo", element: <CustomerPage /> },
+  { path: "/customers/form", element: <CustomerForm /> },
   { path: "/sale-orders", element: <SaleOrdersPage /> },
   { path: "/purchase-orders", element: <PurchaseOrdersPage /> },
+  { path: "/agents/:phoneNo", element: <AgentPage /> },
+  { path: "/customers/:phoneNo", element: <CustomerPage /> },
 ];
 
 function App() {

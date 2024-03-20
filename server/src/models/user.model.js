@@ -18,6 +18,7 @@ const userSchema = new Schema(
     phoneNo: {
       type: String,
       required: true,
+      unique: true,
     },
     orders: [
       {
