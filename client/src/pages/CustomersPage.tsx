@@ -2,20 +2,7 @@ import { Button, Grid } from "@mui/material";
 import Sidebar from "../components/Sidebar";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
-export interface IUser {
-  userType: string;
-  name: string;
-  address: string;
-  phoneNo: string;
-  orders?: null[] | null;
-  paid: number;
-  remaining: number;
-  _id: string;
-  createdAt: string;
-  updatedAt: string;
-  __v: number;
-}
+import { IUser } from "../interfaces/user.interface";
 
 const CustomersPage = () => {
   const navigate = useNavigate();
