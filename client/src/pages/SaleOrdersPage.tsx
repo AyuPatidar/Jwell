@@ -1,9 +1,7 @@
 import { Grid } from "@mui/material";
 import Sidebar from "../components/Sidebar";
-import { useParams } from "react-router-dom";
 
-const CustomerPage = () => {
-  const { id } = useParams();
+const SaleOrdersPage = () => {
   return (
     <>
       <Grid container>
@@ -23,7 +21,7 @@ const CustomerPage = () => {
           alignItems={"center"}
         >
           <div>
-            <h1>Customer {id}</h1>
+            <h1>Sale Orders Page</h1>
           </div>
         </Grid>
       </Grid>
@@ -31,4 +29,4 @@ const CustomerPage = () => {
   );
 };
 
-export default CustomerPage;
+export default SaleOrdersPage;
