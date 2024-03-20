@@ -2,7 +2,7 @@ import mongoose, { Schema } from "mongoose";
 
 const productSchema = new Schema(
   {
-    product_type: {
+    productType: {
       type: String,
       enum: ["gold", "silver"],
       required: true,

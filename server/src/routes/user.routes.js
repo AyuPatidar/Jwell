@@ -7,8 +7,8 @@ import {
 
 const router = Router();
 
-router.route("/register", registerUser);
-router.route("/agents", getAllAgents);
-router.route("/customers", getAllCustomers);
+router.route("/register").post(registerUser);
+router.route("/agents").get(getAllAgents);
+router.route("/customers").get(getAllCustomers);
 
 export default router;

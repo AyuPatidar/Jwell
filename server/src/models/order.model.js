@@ -2,7 +2,7 @@ import mongoose, { Schema } from "mongoose";
 import { Counter } from "./counter.model.js";
 
 const orderSchema = new Schema({
-  order_type: {
+  orderType: {
     type: String,
     enum: ["purchase", "sale"],
     required: true,

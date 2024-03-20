@@ -3,7 +3,7 @@ import mongooseAggregatePaginate from "mongoose-aggregate-paginate-v2";
 
 const userSchema = new Schema(
   {
-    user_type: {
+    userType: {
       type: String,
       enum: ["agent", "customer"],
       required: true,

@@ -5,16 +5,17 @@ import { User } from "../models/user.model.js";
 
 const registerUser = asyncHandler(async (req, res, next) => {
   try {
-    const { name, address, phoneNo } = req.body;
+    const { userType, name, address, phoneNo } = req.body;
 
-    if (!name || !phoneNo)
-      throw new ApiError(400, "Name and phone No are required");
+    if (!userType || !name || !phoneNo)
+      throw new ApiError(400, "User Type, name and phone No are required");
 
     const existingUser = await User.findOne({ phoneNo });
     if (existingUser)
       throw new ApiError(409, "User with this phone number already exists");
 
     const user = await User.create({
+      userType,
       name,
       address: address || "",
       phoneNo,
@@ -43,7 +44,7 @@ const getAllAgents = asyncHandler(async (req, res, next) => {
     [
       {
         $match: {
-          user_type: "agent",
+          userType: "agent",
         },
       },
     ],
@@ -62,7 +63,7 @@ const getAllCustomers = asyncHandler(async (req, res, next) => {
     [
       {
         $match: {
-          user_type: "customer",
+          userType: "customer",
         },
       },
     ],
