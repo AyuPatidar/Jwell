@@ -2,9 +2,9 @@ import { Grid } from "@mui/material";
 import Sidebar from "../components/Sidebar";
 import { useLocation } from "react-router-dom";
 
-const CustomerPage = () => {
+const UserPage = () => {
   const location = useLocation();
-  const { customer } = location.state;
+  const { user } = location.state;
 
   return (
     <>
@@ -25,9 +25,9 @@ const CustomerPage = () => {
           alignItems={"center"}
         >
           <div>
-            <h1>Customer</h1>
-            <h2>Name: {customer.name}</h2>
-            <h2>Phone No: {customer.phoneNo}</h2>
+            <h1>{user.userType}</h1>
+            <h2>Name: {user.name}</h2>
+            <h2>Phone No: {user.phoneNo}</h2>
           </div>
         </Grid>
       </Grid>
@@ -35,4 +35,4 @@ const CustomerPage = () => {
   );
 };
 
-export default CustomerPage;
+export default UserPage;

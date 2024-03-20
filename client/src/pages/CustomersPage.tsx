@@ -3,6 +3,7 @@ import Sidebar from "../components/Sidebar";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { IUser } from "../interfaces/user.interface";
+import UsersTable from "../components/UsersTable";
 
 const CustomersPage = () => {
   const navigate = useNavigate();
@@ -37,38 +38,7 @@ const CustomersPage = () => {
           <Grid item>
             <div>
               <h1>Customers</h1>
-              <ul>
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Name</th>
-                      <th>Phone No.</th>
-                      <th>Paid</th>
-                      <th>Remaining</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {customers.map((customer) => (
-                      <tr key={customer.phoneNo}>
-                        <td>
-                          <button
-                            onClick={() =>
-                              navigate(`/customers/${customer.phoneNo}`, {
-                                state: { customer },
-                              })
-                            }
-                          >
-                            {customer.name}
-                          </button>
-                        </td>
-                        <td>{customer.phoneNo}</td>
-                        <td>{customer.paid}</td>
-                        <td>{customer.remaining}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </ul>
+              <UsersTable users={customers} />
             </div>
           </Grid>
           <Grid item>
