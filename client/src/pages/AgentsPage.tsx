@@ -1,7 +1,33 @@
-import { Grid } from "@mui/material";
+import { Button, Grid } from "@mui/material";
 import Sidebar from "../components/Sidebar";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+export interface IUser {
+  userType: string;
+  name: string;
+  address: string;
+  phoneNo: string;
+  orders?: null[] | null;
+  paid: number;
+  remaining: number;
+  _id: string;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}
 
 const AgentsPage = () => {
+  const navigate = useNavigate();
+
+  const [agents, setAgents] = useState<IUser[]>([]);
+
+  useEffect(() => {
+    fetch(`http://localhost:8000/api/v1/users/agents`)
+      .then((res) => res.json())
+      .then((res) => setAgents(res.data));
+  }, []);
+
   return (
     <>
       <Grid container>
@@ -14,15 +40,58 @@ const AgentsPage = () => {
         </Grid>
         <Grid
           item
-          display={"flex"}
+          container
           md={10}
           lg={10}
           justifyContent={"center"}
           alignItems={"center"}
+          direction={"column"}
         >
-          <div>
-            <h1>Agents</h1>
-          </div>
+          <Grid item>
+            <div>
+              <h1>Agents</h1>
+              <ul>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Phone No.</th>
+                      <th>Paid</th>
+                      <th>Remaining</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {agents.map((agent) => (
+                      <tr key={agent.phoneNo}>
+                        <td>
+                          <button
+                            onClick={() =>
+                              navigate(`/agents/${agent.phoneNo}`, {
+                                state: { agent },
+                              })
+                            }
+                          >
+                            {agent.name}
+                          </button>
+                        </td>
+                        <td>{agent.phoneNo}</td>
+                        <td>{agent.paid}</td>
+                        <td>{agent.remaining}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </ul>
+            </div>
+          </Grid>
+          <Grid item>
+            <Button
+              variant="contained"
+              onClick={() => navigate("/agents/form")}
+            >
+              Add Agent
+            </Button>
+          </Grid>
         </Grid>
       </Grid>
     </>

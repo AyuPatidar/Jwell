@@ -1,9 +1,11 @@
 import { Grid } from "@mui/material";
 import Sidebar from "../components/Sidebar";
-import { useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 const AgentPage = () => {
-  const { id } = useParams();
+  const location = useLocation();
+  const { agent } = location.state;
+
   return (
     <>
       <Grid container>
@@ -23,7 +25,9 @@ const AgentPage = () => {
           alignItems={"center"}
         >
           <div>
-            <h1>Agent {id}</h1>
+            <h1>Agent</h1>
+            <h2>Name: {agent.name}</h2>
+            <h2>Phone No: {agent.phoneNo}</h2>
           </div>
         </Grid>
       </Grid>

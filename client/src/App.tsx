@@ -11,9 +11,9 @@ import CustomerPage from "./pages/CustomerPage";
 const routes = [
   { path: "/", element: <HomePage /> },
   { path: "/agents", element: <AgentsPage /> },
-  { path: "/agent/:id", element: <AgentPage /> },
+  { path: "/agents/:phoneNo", element: <AgentPage /> },
   { path: "/customers", element: <CustomersPage /> },
-  { path: "/customer/:id", element: <CustomerPage /> },
+  { path: "/customers/:phoneNo", element: <CustomerPage /> },
   { path: "/sale-orders", element: <SaleOrdersPage /> },
   { path: "/purchase-orders", element: <PurchaseOrdersPage /> },
 ];
