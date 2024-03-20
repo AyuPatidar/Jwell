@@ -1,5 +1,5 @@
 import mongoose, { Schema } from "mongoose";
-import { mongooseAggregatePaginate } from "mongoose-aggregate-paginate-v2";
+import mongooseAggregatePaginate from "mongoose-aggregate-paginate-v2";
 
 const userSchema = new Schema(
   {
@@ -41,4 +41,4 @@ const userSchema = new Schema(
 
 userSchema.plugin(mongooseAggregatePaginate);
 
-export default User = mongoose.model("User", userSchema);
+export const User = new mongoose.model("User", userSchema);

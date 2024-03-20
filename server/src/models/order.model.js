@@ -1,5 +1,5 @@
 import mongoose, { Schema } from "mongoose";
-import Counter from "./counter.model.js";
+import { Counter } from "./counter.model.js";
 
 const orderSchema = new Schema({
   order_type: {
@@ -60,4 +60,4 @@ orderSchema.pre("save", function (next) {
   }
 });
 
-export default Order = new mongoose.model("Order", orderSchema);
+export const Order = new mongoose.model("Order", orderSchema);

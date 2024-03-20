@@ -3,7 +3,7 @@ import {
   getAllAgents,
   getAllCustomers,
   registerUser,
-} from "../controllers/user.controller";
+} from "../controllers/user.controller.js";
 
 const router = Router();
 
