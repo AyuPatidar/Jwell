@@ -5,7 +5,7 @@ import { User } from "../models/user.model.js";
 
 const registerUser = asyncHandler(async (req, res, next) => {
   try {
-    const { userType, name, address, phoneNo } = req.body;
+    const { userType, name, address = "", phoneNo } = req.body;
 
     if (!userType || !name || !phoneNo)
       throw new ApiError(400, "User Type, name and phone No are required");
