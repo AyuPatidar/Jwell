@@ -1,9 +1,12 @@
 import { Grid } from "@mui/material";
-import React from "react";
 import Sidebar from "../components/Sidebar";
 import UserForm from "../components/UserForm";
+import { useLocation } from "react-router-dom";
 
 const CustomerForm = () => {
+  const location = useLocation();
+  const user = location.state?.user;
+
   return (
     <Grid container>
       <Grid
@@ -21,7 +24,10 @@ const CustomerForm = () => {
         justifyContent={"center"}
         alignItems={"center"}
       >
-        <UserForm userType={"customer"} />
+        <UserForm
+          userType={"customer"}
+          user={user || null}
+        />
       </Grid>
     </Grid>
   );

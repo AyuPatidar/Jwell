@@ -1,8 +1,10 @@
 import { Grid } from "@mui/material";
 import Sidebar from "../components/Sidebar";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const UserPage = () => {
+  const navigate = useNavigate();
+
   const location = useLocation();
   const { user } = location.state;
 
@@ -25,9 +27,17 @@ const UserPage = () => {
           alignItems={"center"}
         >
           <div>
+            <pre>{JSON.stringify(user, null, 4)}</pre>
             <h1>{user.userType}</h1>
             <h2>Name: {user.name}</h2>
             <h2>Phone No: {user.phoneNo}</h2>
+            <button
+              onClick={() =>
+                navigate(`/${user.userType}s/form`, { state: { user } })
+              }
+            >
+              Update User
+            </button>
           </div>
         </Grid>
       </Grid>

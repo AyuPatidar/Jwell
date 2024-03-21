@@ -8,6 +8,7 @@ import PurchaseOrdersPage from "./pages/PurchaseOrdersPage";
 import AgentForm from "./pages/AgentForm";
 import CustomerForm from "./pages/CustomerForm";
 import UserPage from "./pages/UserPage";
+import "react-toastify/dist/ReactToastify.css";
 
 const routes = [
   { path: "/", element: <HomePage /> },
