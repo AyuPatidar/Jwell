@@ -37,6 +37,23 @@ const registerUser = asyncHandler(async (req, res, next) => {
   }
 });
 
+const updateUser = asyncHandler(async (req, res, next) => {
+  const { id, name, address, phoneNo } = req.body;
+
+  if (!id) throw new ApiError(400, "Id is required.");
+
+  const user = await User.findByIdAndUpdate(
+    id,
+    { name: name, phoneNo: phoneNo, address: address },
+    { new: true }
+  );
+
+  if (!user)
+    throw new ApiError(500, "Something went wrong while updating user");
+
+  res.status(200).json(new ApiResponse(200, "User updated successfully", user));
+});
+
 const getAllAgents = asyncHandler(async (req, res, next) => {
   const { page = 1, limit = 2 } = req.query;
 
@@ -75,4 +92,4 @@ const getAllCustomers = asyncHandler(async (req, res, next) => {
   res.status(200).json(new ApiResponse(200, "Found customers", customers));
 });
 
-export { registerUser, getAllAgents, getAllCustomers };
+export { registerUser, updateUser, getAllAgents, getAllCustomers };
