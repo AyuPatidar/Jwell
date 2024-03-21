@@ -1,6 +1,6 @@
 import { Grid } from "@mui/material";
-import React from "react";
 import Sidebar from "../components/Sidebar";
+import UserForm from "../components/UserForm";
 
 const AgentForm = () => {
   return (
@@ -20,7 +20,7 @@ const AgentForm = () => {
         justifyContent={"center"}
         alignItems={"center"}
       >
-        Agent Form
+        <UserForm userType={"agent"} />
       </Grid>
     </Grid>
   );
