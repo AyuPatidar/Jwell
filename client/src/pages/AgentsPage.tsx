@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { IUser } from "../interfaces/user.interface";
 import UsersTable from "../components/UsersTable";
+import { API_BaseUrl, API_Agents } from "../constants";
 
 const AgentsPage = () => {
   const navigate = useNavigate();
@@ -11,7 +12,7 @@ const AgentsPage = () => {
   const [agents, setAgents] = useState<IUser[]>([]);
 
   useEffect(() => {
-    fetch(`http://localhost:8000/api/v1/users/agents`)
+    fetch(`${API_BaseUrl}${API_Agents}`)
       .then((res) => res.json())
       .then((res) => setAgents(res.data));
   }, []);
