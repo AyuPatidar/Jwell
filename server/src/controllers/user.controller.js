@@ -93,7 +93,7 @@ const getAllCustomers = asyncHandler(async (req, res, next) => {
   res.status(200).json(new ApiResponse(200, "Found customers", customers));
 });
 
-const getUsersOrders = asyncHandler(async (req, res, next) => {
+const getUserOrders = asyncHandler(async (req, res, next) => {
   const { userId } = req.params;
   if (!userId) throw new ApiError(400, "User Id is required");
 
@@ -112,10 +112,52 @@ const getUsersOrders = asyncHandler(async (req, res, next) => {
     .json(new ApiResponse(200, "Orders related to this user found", orders));
 });
 
+const createUserOrder = asyncHandler(async (req, res, next) => {
+  const { userId } = req.query;
+  if (!userId) throw new ApiError(400, "User Id is required.");
+
+  const {
+    orderType,
+    khareedOrBakaya,
+    products,
+    finalAmount,
+    paid = 0,
+    remaining = 0,
+  } = req.body;
+
+  if (!orderType || !khareedOrBakaya)
+    throw new ApiError(400, "Order Type and khareedOrBakaya are required");
+
+  if (khareedOrBakaya.trim() === "khareed") {
+    if (!products || !finalAmount)
+      throw new ApiError(400, "Final Amount & products are required");
+    if (paid + remaining !== finalAmount)
+      throw new ApiError(400, "Final amount !== paid + remaining");
+  } else if (khareedOrBakaya.trim() === "bakaya" && (!paid || paid === 0)) {
+    throw new ApiError(400, "Paid amount is required & must be > 0");
+  }
+
+  const order = Order.create({
+    orderType: orderType,
+    userId: userId,
+    khareedOrBakaya: khareedOrBakaya,
+    products: products,
+    finalAmount: finalAmount,
+    paid: paid,
+    remaining: remaining,
+  });
+
+  if (!order)
+    throw new ApiError(500, "Something wen twrong while creating order");
+
+  res.status(201).json(new ApiResponse(201, "Order Created", order));
+});
+
 export {
   registerUser,
   updateUser,
   getAllAgents,
   getAllCustomers,
-  getUsersOrders,
+  getUserOrders,
+  createUserOrder,
 };
