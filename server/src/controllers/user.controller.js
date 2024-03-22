@@ -29,22 +29,17 @@ const registerUser = asyncHandler(async (req, res, next) => {
       .status(201)
       .json(new ApiResponse(201, "User created successfully", user));
   } catch (error) {
-    console.error("Register User: ", error);
-    throw new ApiError(
-      500,
-      "Something went wrong while registering user",
-      error
-    );
+    throw new ApiError(500, error?.message);
   }
 });
 
 const updateUser = asyncHandler(async (req, res, next) => {
-  const { userId } = req.params;
-  if (!userId) throw new ApiError(400, "Id is required.");
-
-  const { name, address, phoneNo } = req.body;
-
   try {
+    const { userId } = req.params;
+    if (!userId) throw new ApiError(400, "Id is required.");
+
+    const { name, address, phoneNo } = req.body;
+
     const user = await User.findByIdAndUpdate(
       id,
       { name: name, phoneNo: phoneNo, address: address },
@@ -63,60 +58,68 @@ const updateUser = asyncHandler(async (req, res, next) => {
 });
 
 const getAllAgents = asyncHandler(async (req, res, next) => {
-  const agents = await User.aggregate([
-    {
-      $match: {
-        userType: "agent",
+  try {
+    const agents = await User.aggregate([
+      {
+        $match: {
+          userType: "agent",
+        },
       },
-    },
-  ]);
+    ]);
 
-  if (!agents) throw new ApiError(404, "No agent found");
+    if (!agents) throw new ApiError(404, "No agent found");
 
-  res.status(200).json(new ApiResponse(200, "Found agents", agents));
+    res.status(200).json(new ApiResponse(200, "Found agents", agents));
+  } catch (error) {
+    throw new ApiError(500, "Something went wrong while finding agents");
+  }
 });
 
 const getAllCustomers = asyncHandler(async (req, res, next) => {
-  const customers = await User.aggregate([
-    {
-      $match: {
-        userType: "customer",
+  try {
+    const customers = await User.aggregate([
+      {
+        $match: {
+          userType: "customer",
+        },
       },
-    },
-  ]);
+    ]);
 
-  if (!customers) throw new ApiError(404, "No customer found");
+    if (!customers) throw new ApiError(404, "No customer found");
 
-  res.status(200).json(new ApiResponse(200, "Found customers", customers));
+    res.status(200).json(new ApiResponse(200, "Found customers", customers));
+  } catch (error) {
+    throw new ApiError(500, "Something went wrong while finding customers");
+  }
 });
 
 const createUserOrder = asyncHandler(async (req, res, next) => {
-  const { userId } = req.params;
-  if (!userId) throw new ApiError(400, "User Id is required.");
-
-  const {
-    orderType,
-    khareedOrBakaya,
-    products,
-    finalAmount,
-    paid = 0,
-    remaining = 0,
-  } = req.body;
-
-  if (!orderType || !khareedOrBakaya)
-    throw new ApiError(400, "Order Type and khareedOrBakaya are required");
-
-  if (khareedOrBakaya.trim() === "khareed") {
-    if (!products || !finalAmount)
-      throw new ApiError(400, "Final Amount & products are required");
-    if (paid + remaining !== finalAmount)
-      throw new ApiError(400, "Final amount !== paid + remaining");
-  } else if (khareedOrBakaya.trim() === "bakaya" && (!paid || paid === 0)) {
-    throw new ApiError(400, "Paid amount is required & must be > 0");
-  }
-
   try {
-    const order = Order.create({
+    const { userId } = req.params;
+    if (!userId) throw new ApiError(400, "User Id is required.");
+
+    const {
+      orderType,
+      khareedOrBakaya,
+      products,
+      finalAmount,
+      paid = 0,
+      remaining = 0,
+    } = req.body;
+
+    if (!orderType || !khareedOrBakaya)
+      throw new ApiError(400, "Order Type and khareedOrBakaya are required");
+
+    if (khareedOrBakaya.trim() === "khareed") {
+      if (!products || !finalAmount)
+        throw new ApiError(400, "Final Amount & products are required");
+      if (paid + remaining !== finalAmount)
+        throw new ApiError(400, "Final amount !== paid + remaining");
+    } else if (khareedOrBakaya.trim() === "bakaya" && (!paid || paid === 0)) {
+      throw new ApiError(400, "Paid amount is required & must be > 0");
+    }
+
+    const order = await Order.create({
       orderType: orderType,
       userId: userId,
       khareedOrBakaya: khareedOrBakaya,
@@ -126,9 +129,6 @@ const createUserOrder = asyncHandler(async (req, res, next) => {
       remaining: remaining,
     });
 
-    if (!order)
-      throw new ApiError(500, "Something went wrong while creating order");
-
     res.status(201).json(new ApiResponse(201, "Order Created", order));
   } catch (error) {
     throw new ApiError(500, "Something went wrong while creating order");
@@ -136,11 +136,11 @@ const createUserOrder = asyncHandler(async (req, res, next) => {
 });
 
 const getUserOrders = asyncHandler(async (req, res, next) => {
-  const { userId } = req.params;
-  if (!userId) throw new ApiError(400, "User Id is required");
-
   try {
-    const orders = Order.aggregate([
+    const { userId } = req.params;
+    if (!userId) throw new ApiError(400, "User Id is required");
+
+    const orders = await Order.aggregate([
       {
         $match: {
           userId: userId,
@@ -159,7 +159,7 @@ const getUserOrders = asyncHandler(async (req, res, next) => {
       .status(200)
       .json(new ApiResponse(200, "Orders related to this user found", orders));
   } catch (error) {
-    throw new ApiError(404, "No Order found for the user");
+    throw new ApiError(404, "Something went wrong while finding user orders");
   }
 });
 

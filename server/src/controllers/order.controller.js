@@ -5,10 +5,10 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 
 const getOrderProducts = asyncHandler(async (req, res, next) => {
-  const { orderId } = req.params;
-  if (!orderId) throw new ApiError(400, "Order Id is required");
-
   try {
+    const { orderId } = req.params;
+    if (!orderId) throw new ApiError(400, "Order Id is required");
+
     const order = await Order.findById(orderId);
 
     const products = [];
@@ -19,11 +19,7 @@ const getOrderProducts = asyncHandler(async (req, res, next) => {
 
     res.status(200).json(new ApiResponse(200, "Found Products", products));
   } catch (error) {
-    throw new ApiError(
-      500,
-      "Something went wrong while getting order products",
-      error
-    );
+    throw new ApiError(500, error?.message);
   }
 });
 
