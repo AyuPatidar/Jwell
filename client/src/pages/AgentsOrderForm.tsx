@@ -1,7 +1,7 @@
 import { Grid } from "@mui/material";
 import Sidebar from "../components/Sidebar";
 
-const PurchaseOrdersPage = () => {
+const AgentsOrderForm = () => {
   return (
     <>
       <Grid container>
@@ -21,7 +21,7 @@ const PurchaseOrdersPage = () => {
           alignItems={"center"}
         >
           <div>
-            <h1>Purchase Orders Page</h1>
+            <h1>Welcome to Jwell</h1>
           </div>
         </Grid>
       </Grid>
@@ -29,4 +29,4 @@ const PurchaseOrdersPage = () => {
   );
 };
 
-export default PurchaseOrdersPage;
+export default AgentsOrderForm;

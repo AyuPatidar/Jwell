@@ -1,6 +1,7 @@
 import { Grid } from "@mui/material";
 import Sidebar from "../components/Sidebar";
 import { useLocation, useNavigate } from "react-router-dom";
+import OrdersTable from "../components/OrdersTable";
 
 const UserPage = () => {
   const navigate = useNavigate();
@@ -37,6 +38,10 @@ const UserPage = () => {
               }
             >
               Update User
+            </button>
+            <OrdersTable userId={user._id} />
+            <button onClick={() => navigate(`/${user.userType}s/orders/form`)}>
+              Create Order
             </button>
           </div>
         </Grid>

@@ -3,21 +3,21 @@ import { Routes, Route } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import AgentsPage from "./pages/AgentsPage";
 import CustomersPage from "./pages/CustomersPage";
-import SaleOrdersPage from "./pages/SaleOrdersPage";
-import PurchaseOrdersPage from "./pages/PurchaseOrdersPage";
 import AgentForm from "./pages/AgentForm";
 import CustomerForm from "./pages/CustomerForm";
 import UserPage from "./pages/UserPage";
 import "react-toastify/dist/ReactToastify.css";
+import AgentsOrderForm from "./pages/AgentsOrderForm";
+import CustomersOrderForm from "./pages/CustomersOrderForm";
 
 const routes = [
   { path: "/", element: <HomePage /> },
   { path: "/agents", element: <AgentsPage /> },
   { path: "/agents/form", element: <AgentForm /> },
+  { path: "/agents/orders/form", element: <AgentsOrderForm /> },
   { path: "/customers", element: <CustomersPage /> },
   { path: "/customers/form", element: <CustomerForm /> },
-  { path: "/sale-orders", element: <SaleOrdersPage /> },
-  { path: "/purchase-orders", element: <PurchaseOrdersPage /> },
+  { path: "/purchase-orders", element: <CustomersOrderForm /> },
   { path: "/user/:phoneNo", element: <UserPage /> },
 ];
 

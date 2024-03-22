@@ -17,11 +17,11 @@ const UsersTable = ({ users }: { users: IUser[] }) => {
         </thead>
         <tbody>
           {users.map((user: IUser) => (
-            <tr key={user.phoneNo}>
+            <tr key={user._id}>
               <td>
                 <button
                   onClick={() =>
-                    navigate(`/user/${user.phoneNo}`, {
+                    navigate(`/user/${user._id}`, {
                       state: { user },
                     })
                   }
