@@ -146,6 +146,11 @@ const getUserOrders = asyncHandler(async (req, res, next) => {
           userId: userId,
         },
       },
+      {
+        $project: {
+          products: 0,
+        },
+      },
     ]);
 
     if (!orders) throw new ApiError(404, "No Order found for the user");
