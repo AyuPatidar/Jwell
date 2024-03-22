@@ -1,43 +1,46 @@
 import mongoose, { Schema } from "mongoose";
 import { Counter } from "./counter.model.js";
 
-const orderSchema = new Schema({
-  orderType: {
-    type: String,
-    enum: ["purchase", "sale"],
-    required: true,
-  },
-  orderNo: {
-    type: Number,
-    required: true,
-  },
-  userId: {
-    type: Schema.Types.ObjectId,
-    ref: "User",
-  },
-  khareedOrBakaya: {
-    type: String,
-    enum: ["khareed", "bakaya"],
-    required: true,
-  },
-  products: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "Product",
+const orderSchema = new Schema(
+  {
+    orderType: {
+      type: String,
+      enum: ["purchase", "sale"],
+      required: true,
     },
-  ],
-  finalAmount: {
-    type: Number,
+    orderNo: {
+      type: Number,
+      required: true,
+    },
+    userId: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    },
+    khareedOrBakaya: {
+      type: String,
+      enum: ["khareed", "bakaya"],
+      required: true,
+    },
+    products: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Product",
+      },
+    ],
+    finalAmount: {
+      type: Number,
+    },
+    paid: {
+      type: Number,
+      required: true,
+      default: 0,
+    },
+    remaining: {
+      type: Number,
+    },
   },
-  paid: {
-    type: Number,
-    required: true,
-    default: 0,
-  },
-  remaining: {
-    type: Number,
-  },
-});
+  { timestamps: true }
+);
 
 orderSchema.pre("save", function (next) {
   const doc = this;
