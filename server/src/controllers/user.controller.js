@@ -41,7 +41,7 @@ const updateUser = asyncHandler(async (req, res, next) => {
     const { name, address, phoneNo } = req.body;
 
     const user = await User.findByIdAndUpdate(
-      id,
+      userId,
       { name: name, phoneNo: phoneNo, address: address },
       { new: true }
     );
