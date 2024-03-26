@@ -33,7 +33,7 @@ const productSchema = new Schema(
       type: String,
     },
     labour: {
-      type: String,
+      type: Number,
       required: true,
       default: 0,
     },
