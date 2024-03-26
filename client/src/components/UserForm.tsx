@@ -2,7 +2,7 @@ import { useState } from "react";
 import { IUser } from "../interfaces/user.interface";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { API_BaseUrl, API_User_Register, API_User_Update } from "../constants";
+import { API_BaseUrl } from "../constants";
 
 const UserForm = ({ userType, user }: { userType: string; user?: IUser }) => {
   const navigate = useNavigate();
@@ -13,7 +13,7 @@ const UserForm = ({ userType, user }: { userType: string; user?: IUser }) => {
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (user) {
-      fetch(`${API_BaseUrl}${API_User_Update}`, {
+      fetch(`${API_BaseUrl}/users/${user._id}/update`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -28,7 +28,7 @@ const UserForm = ({ userType, user }: { userType: string; user?: IUser }) => {
         .then((res) => res.json())
         .then((res) => toast(res.message));
     } else {
-      fetch(`${API_BaseUrl}${API_User_Register}`, {
+      fetch(`${API_BaseUrl}/users/new-user`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

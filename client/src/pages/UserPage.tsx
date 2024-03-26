@@ -40,7 +40,13 @@ const UserPage = () => {
               Update User
             </button>
             <OrdersTable userId={user._id} />
-            <button onClick={() => navigate(`/${user.userType}s/orders/form`)}>
+            <button
+              onClick={() =>
+                navigate(`/${user.userType}s/${user._id}/orders/form`, {
+                  state: { user },
+                })
+              }
+            >
               Create Order
             </button>
           </div>

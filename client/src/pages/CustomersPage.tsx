@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { IUser } from "../interfaces/user.interface";
 import UsersTable from "../components/UsersTable";
-import { API_BaseUrl, API_Customers } from "../constants";
+import { API_BaseUrl } from "../constants";
 
 const CustomersPage = () => {
   const navigate = useNavigate();
@@ -12,7 +12,7 @@ const CustomersPage = () => {
   const [customers, setCustomers] = useState<IUser[]>([]);
 
   useEffect(() => {
-    fetch(`${API_BaseUrl}${API_Customers}`)
+    fetch(`${API_BaseUrl}/users/customers`)
       .then((res) => res.json())
       .then((res) => setCustomers(res.data));
   }, []);

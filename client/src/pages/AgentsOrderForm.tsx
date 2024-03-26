@@ -1,7 +1,13 @@
 import { Grid } from "@mui/material";
 import Sidebar from "../components/Sidebar";
+import OrderForm from "../components/OrderForm";
+import { useLocation } from "react-router-dom";
+import { useState } from "react";
 
 const AgentsOrderForm = () => {
+  const location = useLocation();
+  const { user } = location.state;
+
   return (
     <>
       <Grid container>
@@ -20,9 +26,7 @@ const AgentsOrderForm = () => {
           justifyContent={"center"}
           alignItems={"center"}
         >
-          <div>
-            <h1>Welcome to Jwell</h1>
-          </div>
+          <OrderForm user={user} />
         </Grid>
       </Grid>
     </>

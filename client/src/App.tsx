@@ -14,11 +14,11 @@ const routes = [
   { path: "/", element: <HomePage /> },
   { path: "/agents", element: <AgentsPage /> },
   { path: "/agents/form", element: <AgentForm /> },
-  { path: "/agents/orders/form", element: <AgentsOrderForm /> },
+  { path: "/agents/:userId/orders/form", element: <AgentsOrderForm /> },
   { path: "/customers", element: <CustomersPage /> },
   { path: "/customers/form", element: <CustomerForm /> },
-  { path: "/purchase-orders", element: <CustomersOrderForm /> },
-  { path: "/user/:phoneNo", element: <UserPage /> },
+  { path: "/customers/:userId/orders/form", element: <CustomersOrderForm /> },
+  { path: "/user/:userId", element: <UserPage /> },
 ];
 
 function App() {
