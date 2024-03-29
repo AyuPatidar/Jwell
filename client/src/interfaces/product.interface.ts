@@ -1,11 +1,11 @@
-export interface Product {
+export interface IProduct {
   _id: string;
   productType: string;
   name: string;
   tunch: number;
   wastage: number;
   weight: number;
-  weight_unit: string;
+  weightUnit: string;
   stone: string;
   labour: string;
   rate: number;
