@@ -1,5 +1,4 @@
 import mongoose, { Schema } from "mongoose";
-import { Counter } from "./counter.model.js";
 
 const orderSchema = new Schema(
   {
@@ -10,6 +9,7 @@ const orderSchema = new Schema(
     },
     orderNo: {
       type: Number,
+      required: true,
     },
     userId: {
       type: Schema.Types.ObjectId,
@@ -40,26 +40,5 @@ const orderSchema = new Schema(
   },
   { timestamps: true }
 );
-
-orderSchema.pre("save", function (next) {
-  const doc = this;
-  if (doc.isNew) {
-    Counter.findByIdAndUpdate(
-      { _id: "orderId" },
-      { $inc: { seq: 1 } },
-      { new: true, upsert: true }
-    )
-      .then((counter) => {
-        doc.orderNo = counter.seq;
-        next();
-      })
-      .catch((error) => {
-        console.error("counter error-> : ", error);
-        throw error;
-      });
-  } else {
-    next();
-  }
-});
 
 export const Order = new mongoose.model("Order", orderSchema);

@@ -24,7 +24,7 @@ const productSchema = new Schema(
       required: true,
       default: 0,
     },
-    weight_unit: {
+    weightUnit: {
       type: String,
       enum: ["gm", "kg"],
       required: true,

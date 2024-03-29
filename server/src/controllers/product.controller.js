@@ -11,7 +11,7 @@ const createProduct = asyncHandler(async (req, res, next) => {
       tunch,
       wastage,
       weight,
-      weight_unit,
+      weightUnit,
       stone = "",
       labour,
       rate,
@@ -23,7 +23,7 @@ const createProduct = asyncHandler(async (req, res, next) => {
       !tunch ||
       !wastage ||
       !weight ||
-      !weight_unit ||
+      !weightUnit ||
       !labour ||
       !rate ||
       !amount
@@ -36,7 +36,7 @@ const createProduct = asyncHandler(async (req, res, next) => {
       tunch: tunch,
       wastage: wastage,
       weight: weight,
-      weight_unit: weight_unit,
+      weightUnit: weightUnit,
       stone: stone,
       labour: labour,
       rate: rate,

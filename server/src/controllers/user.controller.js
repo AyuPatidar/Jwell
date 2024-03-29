@@ -106,21 +106,25 @@ const createUserOrder = asyncHandler(async (req, res, next) => {
       paid = 0,
       remaining = 0,
     } = req.body;
-    // console.log("Body: ", req.body);
-    // console.log("User : ", userId);
 
-    // if (!orderType || !khareedOrBakaya)
-    //   throw new ApiError(400, "Order Type and khareedOrBakaya are required");
+    if (!orderType || !khareedOrBakaya)
+      throw new ApiError(400, "Order Type and khareedOrBakaya are required");
 
-    // if (khareedOrBakaya.trim() === "khareed") {
-    //   if (!products || !finalAmount)
-    //     throw new ApiError(400, "Final Amount & products are required");
-    //   if (paid + remaining !== finalAmount)
-    //     throw new ApiError(400, "Final amount !== paid + remaining");
-    // } else if (khareedOrBakaya.trim() === "bakaya" && (!paid || paid === 0)) {
-    //   throw new ApiError(400, "Paid amount is required & must be > 0");
-    // }
-    console.log("Start");
+    if (khareedOrBakaya.trim() === "khareed") {
+      if (!products || !finalAmount)
+        throw new ApiError(400, "Final Amount & products are required");
+      if (paid + remaining !== finalAmount)
+        throw new ApiError(400, "Final amount !== paid + remaining");
+    } else if (khareedOrBakaya.trim() === "bakaya" && (!paid || paid === 0)) {
+      throw new ApiError(400, "Paid amount is required & must be > 0");
+    }
+
+    const user = await User.findByIdAndUpdate(
+      userId,
+      { $inc: { totalOrders: 1 } },
+      { new: true, upsert: true }
+    );
+
     const order = await Order.create({
       orderType: orderType,
       userId: userId,
@@ -129,8 +133,9 @@ const createUserOrder = asyncHandler(async (req, res, next) => {
       finalAmount: finalAmount,
       paid: paid,
       remaining: remaining,
+      orderNo: user.totalOrders,
     });
-    console.log("End");
+
     res.status(201).json(new ApiResponse(201, "Order Created", order));
   } catch (error) {
     throw new ApiError(500, "Something went wrong while creating order");

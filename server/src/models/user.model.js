@@ -26,6 +26,10 @@ const userSchema = new Schema(
         ref: "Order",
       },
     ],
+    totalOrders: {
+      type: Number,
+      default: 0,
+    },
     paid: {
       type: Number,
       required: true,
