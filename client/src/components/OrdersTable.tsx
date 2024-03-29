@@ -7,8 +7,8 @@ const OrdersTable = ({ userId }: { userId: string }) => {
   useEffect(() => {
     fetch(`${API_BaseUrl}/users/${userId}/orders`)
       .then((res) => res.json())
-      .then((res) => setOrders(orders));
-  });
+      .then((res) => setOrders(res.data));
+  }, []);
   return (
     <>
       <h1>Orders</h1>

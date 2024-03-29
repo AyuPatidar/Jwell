@@ -4,8 +4,11 @@ import * as yup from "yup";
 import { FieldArray, Form, Formik } from "formik";
 import { Grid } from "@mui/material";
 import { API_BaseUrl } from "../constants";
+import { useNavigate } from "react-router-dom";
 
 const OrderForm = ({ user }: { user: IUser }) => {
+  const navigate = useNavigate();
+
   const [khareedOrBakaya, setKhareedOrBakaya] = useState("");
   const [products, setProducts] = useState<String[]>([]);
 
@@ -90,8 +93,21 @@ const OrderForm = ({ user }: { user: IUser }) => {
           paid: values.paid,
           remaining: values.remaining,
         }),
-      });
+      }).then((res) => navigate(-1));
     });
+  };
+
+  const bakayaInitialValues = {
+    paid: 0,
+  };
+
+  const bakayaOrderSchema = yup.object().shape({
+    paid: yup.number().positive("Must be greater than 0").required("Required"),
+  });
+
+  const handlebakayaSubmit = (values: any, actions: any) => {
+    console.log(values);
+    setTimeout(() => actions.resetForm(), 1000);
   };
 
   return (
@@ -348,6 +364,30 @@ const OrderForm = ({ user }: { user: IUser }) => {
             </Formik>
           )}
           {/* bakaya */}
+          {khareedOrBakaya === "bakaya" && (
+            <Formik
+              initialValues={bakayaInitialValues}
+              onSubmit={handlebakayaSubmit}
+              validationSchema={bakayaOrderSchema}
+            >
+              {({ values, errors, setFieldValue, handleSubmit }) => (
+                <Form>
+                  <label htmlFor="productType">Product Type: </label>
+                  <input
+                    id="productType"
+                    type="text"
+                    name="productType"
+                    value={values.paid}
+                    onChange={(e) => {
+                      setFieldValue(`paid`, e.target.value);
+                    }}
+                  />
+                  <pre>{JSON.stringify({ values, errors }, null, 4)}</pre>
+                  <button type="submit">Submit</button>
+                </Form>
+              )}
+            </Formik>
+          )}
         </Grid>
       </Grid>
     </>
