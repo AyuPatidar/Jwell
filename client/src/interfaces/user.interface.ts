@@ -1,12 +1,13 @@
 export interface IUser {
+  _id: string;
   userType: string;
   name: string;
   address: string;
   phoneNo: string;
-  orders?: null[] | null;
+  orders: string[] | null;
+  totalOrders: number;
   paid: number;
   remaining: number;
-  _id: string;
   createdAt: string;
   updatedAt: string;
   __v: number;

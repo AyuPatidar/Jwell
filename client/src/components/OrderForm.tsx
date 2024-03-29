@@ -65,7 +65,7 @@ const OrderForm = ({ user }: { user: IUser }) => {
           tunch: product.tunch,
           wastage: product.wastage,
           weight: product.weight,
-          weight_unit: product.weightUnit,
+          weightUnit: product.weightUnit,
           stone: product.stone,
           labour: product.labour,
           rate: product.rate,
