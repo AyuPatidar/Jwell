@@ -1,13 +1,13 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { IUser } from "../interfaces/user.interface";
 import * as yup from "yup";
 import { FieldArray, Form, Formik } from "formik";
-import { IProduct } from "../interfaces/product.interface";
 import { Grid } from "@mui/material";
+import { API_BaseUrl } from "../constants";
 
 const OrderForm = ({ user }: { user: IUser }) => {
   const [khareedOrBakaya, setKhareedOrBakaya] = useState("");
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState<String[]>([]);
 
   const khareedInitialValues = {
     products: [
@@ -52,25 +52,46 @@ const OrderForm = ({ user }: { user: IUser }) => {
   });
 
   const handleKhareedSubmit = (values: any, actions: any) => {
-    console.log(values);
-    return new Promise(() =>
-      setTimeout(() => {
-        actions.resetForm();
-      }, 1000)
-    );
-  };
-
-  const query = {
-    userId: user._id,
-  };
-
-  const body = {
-    orderType: user.userType === "agent" ? "purchase" : "sale",
-    khareedOrBakaya: "khareed-bakaya",
-    products: [],
-    finalAmount: 0,
-    paid: 0,
-    remaining: 0,
+    const apiCalls = [];
+    for (var product of values.products) {
+      const apiCall = fetch(`${API_BaseUrl}/products/new-product`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          productType: product.productType,
+          name: product.name,
+          tunch: product.tunch,
+          wastage: product.wastage,
+          weight: product.weight,
+          weight_unit: product.weightUnit,
+          stone: product.stone,
+          labour: product.labour,
+          rate: product.rate,
+          amount: product.amount,
+        }),
+      })
+        .then((res) => res.json())
+        .then((res) => products.push(res.data));
+      apiCalls.push(apiCall);
+    }
+    Promise.all(apiCalls).then((results) => {
+      fetch(`${API_BaseUrl}/users/${user._id}/new-order`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          orderType: user.userType === "agent" ? "purchase" : "sale",
+          khareedOrBakaya: khareedOrBakaya,
+          products: products,
+          finalAmount: values.finalAmount,
+          paid: values.paid,
+          remaining: values.remaining,
+        }),
+      });
+    });
   };
 
   return (
