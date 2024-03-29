@@ -9,11 +9,11 @@ const orderSchema = new Schema(
     },
     orderNo: {
       type: Number,
-      required: true,
     },
     userId: {
       type: Schema.Types.ObjectId,
       ref: "User",
+      index: true,
     },
     khareedOrBakaya: {
       type: String,

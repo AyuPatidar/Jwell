@@ -3,6 +3,7 @@ import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { User } from "../models/user.model.js";
 import { Order } from "../models/order.model.js";
+import mongoose from "mongoose";
 
 const registerUser = asyncHandler(async (req, res, next) => {
   try {
@@ -110,10 +111,10 @@ const createUserOrder = asyncHandler(async (req, res, next) => {
     if (!orderType || !khareedOrBakaya)
       throw new ApiError(400, "Order Type and khareedOrBakaya are required");
 
-    if (khareedOrBakaya.trim() === "khareed") {
+    if (khareedOrBakaya.toLowerCase().trim() === "khareed") {
       if (!products || !finalAmount)
         throw new ApiError(400, "Final Amount & products are required");
-      if (paid + remaining !== finalAmount)
+      if (parseInt(paid) + parseInt(remaining) !== parseInt(finalAmount))
         throw new ApiError(400, "Final amount !== paid + remaining");
     } else if (khareedOrBakaya.trim() === "bakaya" && (!paid || paid === 0)) {
       throw new ApiError(400, "Paid amount is required & must be > 0");
@@ -138,7 +139,7 @@ const createUserOrder = asyncHandler(async (req, res, next) => {
 
     res.status(201).json(new ApiResponse(201, "Order Created", order));
   } catch (error) {
-    throw new ApiError(500, "Something went wrong while creating order");
+    throw new ApiError(500, error.message);
   }
 });
 
@@ -147,18 +148,23 @@ const getUserOrders = asyncHandler(async (req, res, next) => {
     const { userId } = req.params;
     if (!userId) throw new ApiError(400, "User Id is required");
 
+    console.log("Finding", userId);
+
     const orders = await Order.aggregate([
       {
         $match: {
-          userId: userId,
+          userId: new mongoose.Types.ObjectId(userId),
         },
       },
       {
         $project: {
           products: 0,
+          userId: 0,
         },
       },
     ]);
+
+    console.log(orders);
 
     if (!orders) throw new ApiError(404, "No Order found for the user");
 
@@ -166,7 +172,7 @@ const getUserOrders = asyncHandler(async (req, res, next) => {
       .status(200)
       .json(new ApiResponse(200, "Orders related to this user found", orders));
   } catch (error) {
-    throw new ApiError(404, "Something went wrong while finding user orders");
+    throw new ApiError(error.status, error.message);
   }
 });
 
