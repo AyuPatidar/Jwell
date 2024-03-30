@@ -126,16 +126,26 @@ const createUserOrder = asyncHandler(async (req, res, next) => {
       { new: true, upsert: true }
     );
 
-    const order = await Order.create({
-      orderType: orderType,
-      userId: userId,
-      khareedOrBakaya: khareedOrBakaya,
-      products: products,
-      finalAmount: finalAmount,
-      paid: paid,
-      remaining: remaining,
-      orderNo: user.totalOrders,
-    });
+    let order;
+    if (khareedOrBakaya.toLowerCase().trim() === "khareed")
+      order = await Order.create({
+        orderType: orderType,
+        userId: userId,
+        khareedOrBakaya: khareedOrBakaya,
+        products: products,
+        finalAmount: finalAmount,
+        paid: paid,
+        remaining: remaining,
+        orderNo: user.totalOrders,
+      });
+    else
+      order = await Order.create({
+        orderType: orderType,
+        userId: userId,
+        khareedOrBakaya: khareedOrBakaya,
+        paid: paid,
+        orderNo: user.totalOrders,
+      });
 
     res.status(201).json(new ApiResponse(201, "Order Created", order));
   } catch (error) {
