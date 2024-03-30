@@ -12,7 +12,10 @@ const OrdersTable = ({ userId }: { userId: string }) => {
   return (
     <>
       <h1>Orders</h1>
-      <table>
+      <table
+        cellSpacing={3}
+        border={3}
+      >
         <thead>
           <tr>
             <th>Order No</th>

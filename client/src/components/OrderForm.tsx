@@ -5,6 +5,7 @@ import { FieldArray, Form, Formik } from "formik";
 import { Grid } from "@mui/material";
 import { API_BaseUrl } from "../constants";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const OrderForm = ({ user }: { user: IUser }) => {
   const navigate = useNavigate();
@@ -93,7 +94,9 @@ const OrderForm = ({ user }: { user: IUser }) => {
           paid: values.paid,
           remaining: values.remaining,
         }),
-      }).then((res) => navigate(-1));
+      })
+        .then((res) => toast("Order Created"))
+        .then((res) => navigate(-1));
     });
   };
 
@@ -107,6 +110,19 @@ const OrderForm = ({ user }: { user: IUser }) => {
 
   const handlebakayaSubmit = (values: any, actions: any) => {
     console.log(values);
+    fetch(`${API_BaseUrl}/users/${user._id}/new-order`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        orderType: user.userType === "agent" ? "purchase" : "sale",
+        khareedOrBakaya: khareedOrBakaya,
+        paid: values.paid,
+      }),
+    })
+      .then((res) => toast("Order created"))
+      .then((res) => navigate(-1));
     setTimeout(() => actions.resetForm(), 1000);
   };
 
