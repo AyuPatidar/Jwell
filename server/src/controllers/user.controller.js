@@ -30,7 +30,7 @@ const registerUser = asyncHandler(async (req, res, next) => {
       .status(201)
       .json(new ApiResponse(201, "User created successfully", user));
   } catch (error) {
-    throw new ApiError(500, error?.message);
+    throw new ApiError(error.status, error.message);
   }
 });
 
@@ -54,7 +54,7 @@ const updateUser = asyncHandler(async (req, res, next) => {
       .status(200)
       .json(new ApiResponse(200, "User updated successfully", user));
   } catch (error) {
-    throw new ApiError(500, "Something went wrong while updating user", error);
+    throw new ApiError(error.status, error.message);
   }
 });
 
@@ -72,7 +72,7 @@ const getAllAgents = asyncHandler(async (req, res, next) => {
 
     res.status(200).json(new ApiResponse(200, "Found agents", agents));
   } catch (error) {
-    throw new ApiError(500, "Something went wrong while finding agents");
+    throw new ApiError(error.status, error.message);
   }
 });
 
@@ -90,7 +90,7 @@ const getAllCustomers = asyncHandler(async (req, res, next) => {
 
     res.status(200).json(new ApiResponse(200, "Found customers", customers));
   } catch (error) {
-    throw new ApiError(500, "Something went wrong while finding customers");
+    throw new ApiError(error.status, error.message);
   }
 });
 
@@ -149,7 +149,7 @@ const createUserOrder = asyncHandler(async (req, res, next) => {
 
     res.status(201).json(new ApiResponse(201, "Order Created", order));
   } catch (error) {
-    throw new ApiError(500, error.message);
+    throw new ApiError(error.status, error.message);
   }
 });
 

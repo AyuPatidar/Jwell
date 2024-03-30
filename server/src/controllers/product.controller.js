@@ -45,7 +45,7 @@ const createProduct = asyncHandler(async (req, res, next) => {
 
     res.status(201).json(new ApiResponse(201, "Product created", product._id));
   } catch (error) {
-    throw new ApiError(500, error?.message);
+    throw new ApiError(error.status, error?.message);
   }
 });
 
@@ -60,7 +60,7 @@ const getProduct = asyncHandler(async (req, res, next) => {
 
     res.status(200).json(new ApiResponse(200, "Product found", product));
   } catch (error) {
-    throw new ApiError(500, error?.message);
+    throw new ApiError(error.status, error?.message);
   }
 });
 
