@@ -20,12 +20,6 @@ const userSchema = new Schema(
       required: true,
       unique: true,
     },
-    orders: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "Order",
-      },
-    ],
     totalOrders: {
       type: Number,
       default: 0,

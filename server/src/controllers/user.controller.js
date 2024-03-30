@@ -19,9 +19,8 @@ const registerUser = asyncHandler(async (req, res, next) => {
     const user = await User.create({
       userType: userType,
       name: name,
-      address: address || "",
+      address: address,
       phoneNo: phoneNo,
-      orders: [],
       paid: 0,
       remaining: 0,
     });
@@ -127,7 +126,7 @@ const createUserOrder = asyncHandler(async (req, res, next) => {
     );
 
     let order;
-    if (khareedOrBakaya.toLowerCase().trim() === "khareed")
+    if (khareedOrBakaya.toLowerCase().trim() === "khareed") {
       order = await Order.create({
         orderType: orderType,
         userId: userId,
@@ -138,7 +137,13 @@ const createUserOrder = asyncHandler(async (req, res, next) => {
         remaining: remaining,
         orderNo: user.totalOrders,
       });
-    else
+
+      await User.findByIdAndUpdate(
+        userId,
+        { $inc: { paid: paid, remaining: remaining } },
+        { new: true, upsert: true }
+      );
+    } else {
       order = await Order.create({
         orderType: orderType,
         userId: userId,
@@ -146,6 +151,13 @@ const createUserOrder = asyncHandler(async (req, res, next) => {
         paid: paid,
         orderNo: user.totalOrders,
       });
+
+      await User.findByIdAndUpdate(
+        userId,
+        { $inc: { paid: paid, remaining: -paid } },
+        { new: true, upsert: true }
+      );
+    }
 
     res.status(201).json(new ApiResponse(201, "Order Created", order));
   } catch (error) {
