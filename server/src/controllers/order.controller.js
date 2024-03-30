@@ -12,14 +12,14 @@ const getOrderProducts = asyncHandler(async (req, res, next) => {
     const order = await Order.findById(orderId);
 
     const products = [];
-    for (const productId in order.products) {
+    for (const productId of order.products) {
       const product = await Product.findById(productId);
       if (product) products.push(product);
     }
 
     res.status(200).json(new ApiResponse(200, "Found Products", products));
   } catch (error) {
-    throw new ApiError(500, error?.message);
+    throw new ApiError(error.status, error?.message);
   }
 });
 

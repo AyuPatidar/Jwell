@@ -158,8 +158,6 @@ const getUserOrders = asyncHandler(async (req, res, next) => {
     const { userId } = req.params;
     if (!userId) throw new ApiError(400, "User Id is required");
 
-    console.log("Finding", userId);
-
     const orders = await Order.aggregate([
       {
         $match: {
@@ -173,8 +171,6 @@ const getUserOrders = asyncHandler(async (req, res, next) => {
         },
       },
     ]);
-
-    console.log(orders);
 
     if (!orders) throw new ApiError(404, "No Order found for the user");
 
