@@ -1,0 +1,41 @@
+import { Grid } from "@mui/material";
+import Sidebar from "../components/Sidebar";
+import { useLocation } from "react-router-dom";
+import { IOrder } from "../interfaces/order.interface";
+import OrderProductsTable from "../components/OrderProductsTable";
+
+const OrderPage = () => {
+  const location = useLocation();
+  const { order }: { order: IOrder } = location.state;
+
+  return (
+    <Grid container>
+      <Grid
+        item
+        md={2}
+        lg={2}
+      >
+        <Sidebar />
+      </Grid>
+      <Grid
+        container
+        item
+        display={"flex"}
+        md={10}
+        lg={10}
+        justifyContent={"center"}
+        alignItems={"center"}
+        direction={"column"}
+      >
+        <Grid item>
+          <pre>{JSON.stringify(order, null, 4)}</pre>
+        </Grid>
+        <Grid item>
+          <OrderProductsTable orderId={order._id} />
+        </Grid>
+      </Grid>
+    </Grid>
+  );
+};
+
+export default OrderPage;

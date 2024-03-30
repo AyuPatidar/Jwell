@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
 import { API_BaseUrl } from "../constants";
 import { IOrder } from "../interfaces/order.interface";
+import { useNavigate } from "react-router-dom";
 
 const OrdersTable = ({ userId }: { userId: string }) => {
+  const navigate = useNavigate();
+
   const [orders, setOrders] = useState([]);
   useEffect(() => {
     fetch(`${API_BaseUrl}/users/${userId}/orders`)
@@ -29,7 +32,18 @@ const OrdersTable = ({ userId }: { userId: string }) => {
         <tbody>
           {orders.map((order: IOrder) => (
             <tr key={order._id}>
-              <td>{order.orderNo}</td>
+              <td
+                onClick={() => {
+                  if (order.khareedOrBakaya.toLowerCase().trim() === "khareed")
+                    navigate(`/orders/${order._id}`, {
+                      state: {
+                        order: order,
+                      },
+                    });
+                }}
+              >
+                {order.orderNo}
+              </td>
               <td>{order.createdAt}</td>
               <td>{order.khareedOrBakaya}</td>
               <td>{order.finalAmount}</td>
