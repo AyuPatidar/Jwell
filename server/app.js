@@ -9,10 +9,10 @@ app.use(cors());
 
 import userRoutes from "./src/routes/user.routes.js";
 import orderRoutes from "./src/routes/order.routes.js";
-import productRoutes from "./src/routes/product.routes.js";
+import itemRoutes from "./src/routes/item.routes.js";
 
 app.use("/api/v1/users", userRoutes);
 app.use("/api/v1/orders", orderRoutes);
-app.use("/api/v1/products", productRoutes);
+app.use("/api/v1/items", itemRoutes);
 
 export { app };

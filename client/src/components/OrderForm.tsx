@@ -11,12 +11,12 @@ const OrderForm = ({ user }: { user: IUser }) => {
   const navigate = useNavigate();
 
   const [khareedOrBakaya, setKhareedOrBakaya] = useState("");
-  const [products, setProducts] = useState<String[]>([]);
+  const [items, setItems] = useState<String[]>([]);
 
   const khareedInitialValues = {
-    products: [
+    items: [
       {
-        productType: "",
+        itemType: "",
         name: "",
         tunch: 0,
         wastage: 0,
@@ -34,10 +34,10 @@ const OrderForm = ({ user }: { user: IUser }) => {
   };
 
   const khareedOrderSchema = yup.object().shape({
-    products: yup
+    items: yup
       .array(
         yup.object().shape({
-          productType: yup.string().oneOf(["gold", "silver"]).required(),
+          itemType: yup.string().oneOf(["gold", "silver"]).required(),
           name: yup.string().required(),
           tunch: yup.number().positive().required(),
           wastage: yup.number().positive().required(),
@@ -57,27 +57,27 @@ const OrderForm = ({ user }: { user: IUser }) => {
 
   const handleKhareedSubmit = (values: any, actions: any) => {
     const apiCalls = [];
-    for (var product of values.products) {
-      const apiCall = fetch(`${API_BaseUrl}/products/new-product`, {
+    for (var item of values.items) {
+      const apiCall = fetch(`${API_BaseUrl}/items/new-item`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          productType: product.productType,
-          name: product.name,
-          tunch: product.tunch,
-          wastage: product.wastage,
-          weight: product.weight,
-          weightUnit: product.weightUnit,
-          stone: product.stone,
-          labour: product.labour,
-          rate: product.rate,
-          amount: product.amount,
+          itemType: item.itemType,
+          name: item.name,
+          tunch: item.tunch,
+          wastage: item.wastage,
+          weight: item.weight,
+          weightUnit: item.weightUnit,
+          stone: item.stone,
+          labour: item.labour,
+          rate: item.rate,
+          amount: item.amount,
         }),
       })
         .then((res) => res.json())
-        .then((res) => products.push(res.data));
+        .then((res) => items.push(res.data));
       apiCalls.push(apiCall);
     }
     Promise.all(apiCalls).then((results) => {
@@ -89,7 +89,7 @@ const OrderForm = ({ user }: { user: IUser }) => {
         body: JSON.stringify({
           orderType: user.userType === "agent" ? "purchase" : "sale",
           khareedOrBakaya: khareedOrBakaya,
-          products: products,
+          items: items,
           finalAmount: values.finalAmount,
           paid: values.paid,
           remaining: values.remaining,
@@ -109,7 +109,6 @@ const OrderForm = ({ user }: { user: IUser }) => {
   });
 
   const handlebakayaSubmit = (values: any, actions: any) => {
-    console.log(values);
     fetch(`${API_BaseUrl}/users/${user._id}/new-order`, {
       method: "POST",
       headers: {
@@ -174,22 +173,22 @@ const OrderForm = ({ user }: { user: IUser }) => {
                 isSubmitting,
               }) => (
                 <Form>
-                  <FieldArray name="products">
+                  <FieldArray name="items">
                     {({ push, remove }) => (
                       <>
-                        {values.products.map((product, index) => (
+                        {values.items.map((item, index) => (
                           <div key={index}>
                             <h2>Product {index + 1}</h2>
                             <br />
-                            <label htmlFor="productType">Product Type: </label>
+                            <label htmlFor="itemType">Product Type: </label>
                             <input
-                              id="productType"
+                              id="itemType"
                               type="text"
-                              name="productType"
-                              value={product.productType}
+                              name="itemType"
+                              value={item.itemType}
                               onChange={(e) => {
                                 setFieldValue(
-                                  `products[${index}].productType`,
+                                  `items[${index}].itemType`,
                                   e.target.value
                                 );
                               }}
@@ -200,10 +199,10 @@ const OrderForm = ({ user }: { user: IUser }) => {
                               id="paid"
                               type="text"
                               name="paid"
-                              value={product.name}
+                              value={item.name}
                               onChange={(e) => {
                                 setFieldValue(
-                                  `products[${index}].name`,
+                                  `items[${index}].name`,
                                   e.target.value
                                 );
                               }}
@@ -214,10 +213,10 @@ const OrderForm = ({ user }: { user: IUser }) => {
                               id="tunch"
                               type="tel"
                               name="tunch"
-                              value={product.tunch}
+                              value={item.tunch}
                               onChange={(e) => {
                                 setFieldValue(
-                                  `products[${index}].tunch`,
+                                  `items[${index}].tunch`,
                                   e.target.value
                                 );
                               }}
@@ -228,10 +227,10 @@ const OrderForm = ({ user }: { user: IUser }) => {
                               id="wastage"
                               type="tel"
                               name="wastage"
-                              value={product.wastage}
+                              value={item.wastage}
                               onChange={(e) => {
                                 setFieldValue(
-                                  `products[${index}].wastage`,
+                                  `items[${index}].wastage`,
                                   e.target.value
                                 );
                               }}
@@ -242,10 +241,10 @@ const OrderForm = ({ user }: { user: IUser }) => {
                               id="weight"
                               type="tel"
                               name="weight"
-                              value={product.weight}
+                              value={item.weight}
                               onChange={(e) => {
                                 setFieldValue(
-                                  `products[${index}].weight`,
+                                  `items[${index}].weight`,
                                   e.target.value
                                 );
                               }}
@@ -256,10 +255,10 @@ const OrderForm = ({ user }: { user: IUser }) => {
                               id="weightUnit"
                               type="text"
                               name="weightUnit"
-                              value={product.weightUnit}
+                              value={item.weightUnit}
                               onChange={(e) => {
                                 setFieldValue(
-                                  `products[${index}].weightUnit`,
+                                  `items[${index}].weightUnit`,
                                   e.target.value
                                 );
                               }}
@@ -270,10 +269,10 @@ const OrderForm = ({ user }: { user: IUser }) => {
                               id="stone"
                               type="text"
                               name="stone"
-                              value={product.stone}
+                              value={item.stone}
                               onChange={(e) => {
                                 setFieldValue(
-                                  `products[${index}].stone`,
+                                  `items[${index}].stone`,
                                   e.target.value
                                 );
                               }}
@@ -284,10 +283,10 @@ const OrderForm = ({ user }: { user: IUser }) => {
                               id="labour"
                               type="tel"
                               name="labour"
-                              value={product.labour}
+                              value={item.labour}
                               onChange={(e) => {
                                 setFieldValue(
-                                  `products[${index}].labour`,
+                                  `items[${index}].labour`,
                                   e.target.value
                                 );
                               }}
@@ -298,10 +297,10 @@ const OrderForm = ({ user }: { user: IUser }) => {
                               id="rate"
                               type="tel"
                               name="rate"
-                              value={product.rate}
+                              value={item.rate}
                               onChange={(e) => {
                                 setFieldValue(
-                                  `products[${index}].rate`,
+                                  `items[${index}].rate`,
                                   e.target.value
                                 );
                               }}
@@ -312,10 +311,10 @@ const OrderForm = ({ user }: { user: IUser }) => {
                               id="amount"
                               type="tel"
                               name="amount"
-                              value={product.amount}
+                              value={item.amount}
                               onChange={(e) => {
                                 setFieldValue(
-                                  `products[${index}].amount`,
+                                  `items[${index}].amount`,
                                   e.target.value
                                 );
                               }}
@@ -332,7 +331,7 @@ const OrderForm = ({ user }: { user: IUser }) => {
                         ))}
                         <br />
                         <button
-                          onClick={() => push(khareedInitialValues.products[0])}
+                          onClick={() => push(khareedInitialValues.items[0])}
                         >
                           Add Product
                         </button>
@@ -388,11 +387,11 @@ const OrderForm = ({ user }: { user: IUser }) => {
             >
               {({ values, errors, setFieldValue, handleSubmit }) => (
                 <Form>
-                  <label htmlFor="productType">Product Type: </label>
+                  <label htmlFor="paid">Amount: </label>
                   <input
-                    id="productType"
-                    type="text"
-                    name="productType"
+                    id="paid"
+                    type="paid"
+                    name="paid"
                     value={values.paid}
                     onChange={(e) => {
                       setFieldValue(`paid`, e.target.value);

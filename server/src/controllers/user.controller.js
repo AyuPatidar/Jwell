@@ -101,7 +101,7 @@ const createUserOrder = asyncHandler(async (req, res, next) => {
     const {
       orderType,
       khareedOrBakaya,
-      products,
+      items,
       finalAmount,
       paid = 0,
       remaining = 0,
@@ -111,8 +111,8 @@ const createUserOrder = asyncHandler(async (req, res, next) => {
       throw new ApiError(400, "Order Type and khareedOrBakaya are required");
 
     if (khareedOrBakaya.toLowerCase().trim() === "khareed") {
-      if (!products || !finalAmount)
-        throw new ApiError(400, "Final Amount & products are required");
+      if (!items || !finalAmount)
+        throw new ApiError(400, "Final Amount & items are required");
       if (parseInt(paid) + parseInt(remaining) !== parseInt(finalAmount))
         throw new ApiError(400, "Final amount !== paid + remaining");
     } else if (khareedOrBakaya.trim() === "bakaya" && (!paid || paid === 0)) {
@@ -131,7 +131,7 @@ const createUserOrder = asyncHandler(async (req, res, next) => {
         orderType: orderType,
         userId: userId,
         khareedOrBakaya: khareedOrBakaya,
-        products: products,
+        items: items,
         finalAmount: finalAmount,
         paid: paid,
         remaining: remaining,
@@ -178,7 +178,7 @@ const getUserOrders = asyncHandler(async (req, res, next) => {
       },
       {
         $project: {
-          products: 0,
+          items: 0,
           userId: 0,
         },
       },

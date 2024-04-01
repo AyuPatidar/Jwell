@@ -43,7 +43,7 @@ const UserForm = ({ userType, user }: { userType: string; user?: IUser }) => {
         .then((res) => res.json())
         .then((res) => toast(res.message));
     }
-    navigate(`/${userType}s`);
+    navigate(-1);
   };
   return (
     <form onSubmit={onSubmit}>

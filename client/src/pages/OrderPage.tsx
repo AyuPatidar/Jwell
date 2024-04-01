@@ -2,7 +2,7 @@ import { Grid } from "@mui/material";
 import Sidebar from "../components/Sidebar";
 import { useLocation } from "react-router-dom";
 import { IOrder } from "../interfaces/order.interface";
-import OrderProductsTable from "../components/OrderProductsTable";
+import OrderItemsTable from "../components/OrderItemsTable";
 
 const OrderPage = () => {
   const location = useLocation();
@@ -31,7 +31,7 @@ const OrderPage = () => {
           <pre>{JSON.stringify(order, null, 4)}</pre>
         </Grid>
         <Grid item>
-          <OrderProductsTable orderId={order._id} />
+          <OrderItemsTable orderId={order._id} />
         </Grid>
       </Grid>
     </Grid>

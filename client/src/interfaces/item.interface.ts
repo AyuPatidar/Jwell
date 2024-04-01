@@ -1,6 +1,6 @@
-export interface IProduct {
+export interface IItem {
   _id: string;
-  productType: string;
+  itemType: string;
   name: string;
   tunch: number;
   wastage: number;

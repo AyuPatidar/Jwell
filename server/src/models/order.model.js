@@ -20,10 +20,10 @@ const orderSchema = new Schema(
       enum: ["khareed", "bakaya"],
       required: true,
     },
-    products: [
+    items: [
       {
         type: Schema.Types.ObjectId,
-        ref: "Product",
+        ref: "Item",
       },
     ],
     finalAmount: {

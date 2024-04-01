@@ -4,7 +4,7 @@ export interface IOrder {
   orderNo: number;
   userId: string;
   khareedOrBakaya: string;
-  products?: string[] | null;
+  items?: string[] | null;
   finalAmount: number;
   paid: number;
   remaining: number;

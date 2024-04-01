@@ -1,12 +1,12 @@
 import { ApiError } from "../utils/ApiError.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
-import { Product } from "../models/product.model.js";
+import { Item } from "../models/item.model.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 
-const createProduct = asyncHandler(async (req, res, next) => {
+const createItem = asyncHandler(async (req, res, next) => {
   try {
     const {
-      productType,
+      itemType,
       name,
       tunch,
       wastage,
@@ -18,7 +18,7 @@ const createProduct = asyncHandler(async (req, res, next) => {
       amount,
     } = req.body;
     if (
-      !productType ||
+      !itemType ||
       !name ||
       !tunch ||
       !wastage ||
@@ -30,8 +30,8 @@ const createProduct = asyncHandler(async (req, res, next) => {
     )
       throw new ApiError(400, "All fields are required.");
 
-    const product = await Product.create({
-      productType: productType,
+    const item = await Item.create({
+      itemType: itemType,
       name: name,
       tunch: tunch,
       wastage: wastage,
@@ -43,25 +43,24 @@ const createProduct = asyncHandler(async (req, res, next) => {
       amount: amount,
     });
 
-    res.status(201).json(new ApiResponse(201, "Product created", product._id));
+    res.status(201).json(new ApiResponse(201, "Item created", item._id));
   } catch (error) {
     throw new ApiError(error.status, error?.message);
   }
 });
 
-const getProduct = asyncHandler(async (req, res, next) => {
+const getItem = asyncHandler(async (req, res, next) => {
   try {
-    const { productId } = req.params;
-    if (!productId) throw new ApiError(400, "Product Id is required");
+    const { itemId } = req.params;
+    if (!itemId) throw new ApiError(400, "Item Id is required");
 
-    const product = await Product.findById(productId);
-    if (!product)
-      throw new ApiError(404, "No product exists with this product Id");
+    const item = await Item.findById(itemId);
+    if (!item) throw new ApiError(404, "No item exists with this item Id");
 
-    res.status(200).json(new ApiResponse(200, "Product found", product));
+    res.status(200).json(new ApiResponse(200, "Item found", item));
   } catch (error) {
     throw new ApiError(error.status, error?.message);
   }
 });
 
-export { createProduct, getProduct };
+export { createItem, getItem };
