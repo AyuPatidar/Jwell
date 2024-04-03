@@ -10,6 +10,15 @@ const createProduct = asyncHandler(async (req, res, next) => {
     if (!productType || !name)
       throw new ApiError(400, "All fields are required");
 
+    if (
+      !(
+        productType === "gold" ||
+        productType === "silver" ||
+        productType === "stone"
+      )
+    )
+      throw new ApiError(400, "Product Type must be gold or silver or stone");
+
     const product = await Product.create({
       productType: productType,
       name: name,

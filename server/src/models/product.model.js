@@ -5,6 +5,7 @@ const productSchema = new Schema(
     productType: {
       type: String,
       required: true,
+      enum: ["gold", "silver", "stone"],
     },
     name: {
       type: String,
