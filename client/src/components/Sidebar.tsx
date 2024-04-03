@@ -15,6 +15,9 @@ const Sidebar = () => {
           <li>
             <button onClick={() => navigate("/customers")}>Customers</button>
           </li>
+          <li>
+            <button onClick={() => navigate("/products")}>Products</button>
+          </li>
         </ul>
       </div>
     </>

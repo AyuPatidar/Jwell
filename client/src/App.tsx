@@ -10,6 +10,8 @@ import "react-toastify/dist/ReactToastify.css";
 import AgentsOrderForm from "./pages/AgentsOrderForm";
 import CustomersOrderForm from "./pages/CustomersOrderForm";
 import OrderPage from "./pages/OrderPage";
+import ProductsPage from "./pages/ProductsPage";
+import ProductForm from "./pages/ProductForm";
 
 const routes = [
   { path: "/", element: <HomePage /> },
@@ -21,6 +23,8 @@ const routes = [
   { path: "/customers/:userId/orders/form", element: <CustomersOrderForm /> },
   { path: "/user/:userId", element: <UserPage /> },
   { path: "/orders/:orderId", element: <OrderPage /> },
+  { path: "/products", element: <ProductsPage /> },
+  { path: "/products/form", element: <ProductForm /> },
 ];
 
 function App() {
