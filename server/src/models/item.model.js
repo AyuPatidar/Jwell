@@ -4,7 +4,7 @@ const itemSchema = new Schema(
   {
     itemType: {
       type: String,
-      enum: ["gold", "silver"],
+      enum: ["gold", "silver", "stone"],
       required: true,
     },
     name: {
@@ -13,28 +13,18 @@ const itemSchema = new Schema(
     },
     tunch: {
       type: Number,
-      required: true,
+      default: 0,
     },
     wastage: {
       type: Number,
-      required: true,
+      default: 0,
     },
     weight: {
       type: Number,
-      required: true,
       default: 0,
-    },
-    weightUnit: {
-      type: String,
-      enum: ["gm", "kg"],
-      required: true,
-    },
-    stone: {
-      type: String,
     },
     labour: {
       type: Number,
-      required: true,
       default: 0,
     },
     rate: {
@@ -44,7 +34,6 @@ const itemSchema = new Schema(
     amount: {
       type: Number,
       required: true,
-      default: 0,
     },
   },
   { timestamps: true }

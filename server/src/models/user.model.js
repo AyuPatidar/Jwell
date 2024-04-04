@@ -26,12 +26,10 @@ const userSchema = new Schema(
     },
     paid: {
       type: Number,
-      required: true,
       default: 0,
     },
     remaining: {
       type: Number,
-      required: true,
       default: 0,
     },
   },
