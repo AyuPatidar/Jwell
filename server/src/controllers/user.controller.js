@@ -7,12 +7,19 @@ import mongoose from "mongoose";
 
 const registerUser = asyncHandler(async (req, res, next) => {
   try {
-    const { userType, name, address = "", phoneNo } = req.body;
+    const {
+      userType,
+      name,
+      address = "",
+      phoneNo,
+      paid = 0,
+      remaining = 0,
+    } = req.body;
 
     if (!userType || !name || !phoneNo)
       throw new ApiError(400, "User Type, name and phone No are required");
 
-    const existingUser = await User.findOne({ phoneNo });
+    const existingUser = await User.findOne({ phoneNo: phoneNo });
     if (existingUser)
       throw new ApiError(409, "User with this phone number already exists");
 
@@ -21,8 +28,8 @@ const registerUser = asyncHandler(async (req, res, next) => {
       name: name,
       address: address,
       phoneNo: phoneNo,
-      paid: 0,
-      remaining: 0,
+      paid: paid,
+      remaining: remaining,
     });
 
     res
@@ -98,21 +105,18 @@ const createUserOrder = asyncHandler(async (req, res, next) => {
     const { userId } = req.params;
     if (!userId) throw new ApiError(400, "User Id is required.");
 
-    const {
-      orderType,
-      khareedOrBakaya,
-      items,
-      finalAmount,
-      paid = 0,
-      remaining = 0,
-    } = req.body;
+    const { orderType, khareedOrBakaya, items, finalAmount, paid, remaining } =
+      req.body;
 
     if (!orderType || !khareedOrBakaya)
       throw new ApiError(400, "Order Type and khareedOrBakaya are required");
 
     if (khareedOrBakaya.toLowerCase().trim() === "khareed") {
-      if (!items || !finalAmount)
-        throw new ApiError(400, "Final Amount & items are required");
+      if (!items || !finalAmount || !paid || !remaining)
+        throw new ApiError(
+          400,
+          "Final Amount, paid, remaining & items are required"
+        );
       if (parseInt(paid) + parseInt(remaining) !== parseInt(finalAmount))
         throw new ApiError(400, "Final amount !== paid + remaining");
     } else if (khareedOrBakaya.trim() === "bakaya" && (!paid || paid === 0)) {

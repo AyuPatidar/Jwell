@@ -5,25 +5,14 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 
 const createItem = asyncHandler(async (req, res, next) => {
   try {
-    const {
-      itemType,
-      name,
-      tunch,
-      wastage,
-      weight,
-      weightUnit,
-      stone = "",
-      labour,
-      rate,
-      amount,
-    } = req.body;
+    const { itemType, name, tunch, wastage, weight, labour, rate, amount } =
+      req.body;
     if (
       !itemType ||
       !name ||
       !tunch ||
       !wastage ||
       !weight ||
-      !weightUnit ||
       !labour ||
       !rate ||
       !amount
@@ -36,8 +25,6 @@ const createItem = asyncHandler(async (req, res, next) => {
       tunch: tunch,
       wastage: wastage,
       weight: weight,
-      weightUnit: weightUnit,
-      stone: stone,
       labour: labour,
       rate: rate,
       amount: amount,
