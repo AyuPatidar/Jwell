@@ -4,9 +4,8 @@ export interface IItem {
   name: string;
   tunch: number;
   wastage: number;
+  grossWeight: number;
   weight: number;
-  weightUnit: string;
-  stone: string;
   labour: string;
   rate: number;
   amount: number;

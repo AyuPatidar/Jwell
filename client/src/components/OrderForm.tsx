@@ -20,9 +20,8 @@ const OrderForm = ({ user }: { user: IUser }) => {
         name: "",
         tunch: 0,
         wastage: 0,
+        grossWeight: 0,
         weight: 0,
-        weightUnit: "",
-        stone: "",
         labour: 0,
         rate: 0,
         amount: 0,
@@ -37,21 +36,23 @@ const OrderForm = ({ user }: { user: IUser }) => {
     items: yup
       .array(
         yup.object().shape({
-          itemType: yup.string().oneOf(["gold", "silver"]).required(),
-          name: yup.string().required(),
-          tunch: yup.number().positive().required(),
-          wastage: yup.number().positive().required(),
-          weight: yup.number().positive().required(),
-          weightUnit: yup.string().required().oneOf(["gm", "kg"]),
-          stone: yup.string(),
-          labour: yup.number().positive().required(),
-          rate: yup.number().positive().required(),
-          amount: yup.number().positive().required(),
+          itemType: yup
+            .string()
+            .oneOf(["gold", "silver", "stone"])
+            .required("Required"),
+          name: yup.string().required("Required"),
+          tunch: yup.number().positive().required("Required"),
+          wastage: yup.number().positive().required("Required"),
+          grossWeight: yup.number().positive().required("Required"),
+          weight: yup.number().positive().required("Required"),
+          labour: yup.number().positive().required("Required"),
+          rate: yup.number().positive().required("Required"),
+          amount: yup.number().positive().required("Required"),
         })
       )
       .min(1),
     finalAmount: yup.number().positive(),
-    paid: yup.number().positive().required(),
+    paid: yup.number().positive().required("Required"),
     remaining: yup.number(),
   });
 
@@ -68,9 +69,8 @@ const OrderForm = ({ user }: { user: IUser }) => {
           name: item.name,
           tunch: item.tunch,
           wastage: item.wastage,
+          grossWeight: item.grossWeight,
           weight: item.weight,
-          weightUnit: item.weightUnit,
-          stone: item.stone,
           labour: item.labour,
           rate: item.rate,
           amount: item.amount,
@@ -122,7 +122,6 @@ const OrderForm = ({ user }: { user: IUser }) => {
     })
       .then((res) => toast("Order created"))
       .then((res) => navigate(-1));
-    setTimeout(() => actions.resetForm(), 1000);
   };
 
   return (
@@ -167,7 +166,6 @@ const OrderForm = ({ user }: { user: IUser }) => {
               {({
                 values,
                 errors,
-                handleSubmit,
                 handleChange,
                 setFieldValue,
                 isSubmitting,
@@ -236,6 +234,20 @@ const OrderForm = ({ user }: { user: IUser }) => {
                               }}
                             />
                             <br />
+                            <label htmlFor="grossWeight">Gross Weight: </label>
+                            <input
+                              id="grossWeight"
+                              type="text"
+                              name="grossWeight"
+                              value={item.grossWeight}
+                              onChange={(e) => {
+                                setFieldValue(
+                                  `items[${index}].grossWeight`,
+                                  e.target.value
+                                );
+                              }}
+                            />
+                            <br />
                             <label htmlFor="weight">Weight: </label>
                             <input
                               id="weight"
@@ -245,34 +257,6 @@ const OrderForm = ({ user }: { user: IUser }) => {
                               onChange={(e) => {
                                 setFieldValue(
                                   `items[${index}].weight`,
-                                  e.target.value
-                                );
-                              }}
-                            />
-                            <br />
-                            <label htmlFor="weightUnit">Weight Unit: </label>
-                            <input
-                              id="weightUnit"
-                              type="text"
-                              name="weightUnit"
-                              value={item.weightUnit}
-                              onChange={(e) => {
-                                setFieldValue(
-                                  `items[${index}].weightUnit`,
-                                  e.target.value
-                                );
-                              }}
-                            />
-                            <br />
-                            <label htmlFor="stone">Stone: </label>
-                            <input
-                              id="stone"
-                              type="text"
-                              name="stone"
-                              value={item.stone}
-                              onChange={(e) => {
-                                setFieldValue(
-                                  `items[${index}].stone`,
                                   e.target.value
                                 );
                               }}
@@ -385,7 +369,7 @@ const OrderForm = ({ user }: { user: IUser }) => {
               onSubmit={handlebakayaSubmit}
               validationSchema={bakayaOrderSchema}
             >
-              {({ values, errors, setFieldValue, handleSubmit }) => (
+              {({ values, errors, setFieldValue }) => (
                 <Form>
                   <label htmlFor="paid">Amount: </label>
                   <input

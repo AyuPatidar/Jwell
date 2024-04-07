@@ -41,9 +41,8 @@ const OrderItemsTable = ({ orderId }: { orderId: string }) => {
               <td>{item.name}</td>
               <td>{item.tunch}</td>
               <td>{item.wastage}</td>
+              <td>{item.grossWeight}</td>
               <td>{item.weight}</td>
-              <td>{item.weightUnit}</td>
-              <td>{item.stone}</td>
               <td>{item.labour}</td>
               <td>{item.rate}</td>
               <td>{item.amount}</td>
