@@ -1,30 +1,18 @@
-import { Grid } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 import Sidebar from "../components/Sidebar";
 
 const HomePage = () => {
   return (
     <>
-      <Grid container>
-        <Grid
-          item
-          md={2}
-          lg={2}
-        >
-          <Sidebar />
-        </Grid>
-        <Grid
-          item
-          display={"flex"}
-          md={10}
-          lg={10}
-          justifyContent={"center"}
-          alignItems={"center"}
-        >
-          <div>
-            <h1>Welcome to Jwell</h1>
-          </div>
-        </Grid>
-      </Grid>
+      <Sidebar />
+      <Box
+        display={"flex"}
+        justifyContent={"center"}
+        alignItems={"center"}
+        mt={4}
+      >
+        <Typography variant="h2">Welcome to Jwell</Typography>
+      </Box>
     </>
   );
 };

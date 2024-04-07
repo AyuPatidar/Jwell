@@ -1,8 +1,6 @@
-import { Grid } from "@mui/material";
 import Sidebar from "../components/Sidebar";
 import OrderForm from "../components/OrderForm";
 import { useLocation } from "react-router-dom";
-import { useState } from "react";
 
 const AgentsOrderForm = () => {
   const location = useLocation();
@@ -10,25 +8,8 @@ const AgentsOrderForm = () => {
 
   return (
     <>
-      <Grid container>
-        <Grid
-          item
-          md={2}
-          lg={2}
-        >
-          <Sidebar />
-        </Grid>
-        <Grid
-          item
-          display={"flex"}
-          md={10}
-          lg={10}
-          justifyContent={"center"}
-          alignItems={"center"}
-        >
-          <OrderForm user={user} />
-        </Grid>
-      </Grid>
+      <Sidebar />
+      <OrderForm user={user} />
     </>
   );
 };
