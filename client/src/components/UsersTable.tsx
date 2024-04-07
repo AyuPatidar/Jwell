@@ -22,7 +22,7 @@ const UsersTable = ({ users }: { users: IUser[] }) => {
                 <button
                   onClick={() =>
                     navigate(`/user/${user._id}`, {
-                      state: { user },
+                      state: { userId: user._id },
                     })
                   }
                 >
