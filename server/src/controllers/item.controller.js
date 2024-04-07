@@ -5,13 +5,23 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 
 const createItem = asyncHandler(async (req, res, next) => {
   try {
-    const { itemType, name, tunch, wastage, weight, labour, rate, amount } =
-      req.body;
+    const {
+      itemType,
+      name,
+      tunch,
+      wastage,
+      grossWeight,
+      weight,
+      labour,
+      rate,
+      amount,
+    } = req.body;
     if (
       !itemType ||
       !name ||
       !tunch ||
       !wastage ||
+      !grossWeight ||
       !weight ||
       !labour ||
       !rate ||
@@ -24,6 +34,7 @@ const createItem = asyncHandler(async (req, res, next) => {
       name: name,
       tunch: tunch,
       wastage: wastage,
+      grossWeight: grossWeight,
       weight: weight,
       labour: labour,
       rate: rate,
@@ -32,7 +43,10 @@ const createItem = asyncHandler(async (req, res, next) => {
 
     res.status(201).json(new ApiResponse(201, "Item created", item._id));
   } catch (error) {
-    throw new ApiError(error.status, error?.message);
+    throw new ApiError(
+      error.status || 500,
+      error.message || "Something went wrong while creating item"
+    );
   }
 });
 

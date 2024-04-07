@@ -19,6 +19,10 @@ const itemSchema = new Schema(
       type: Number,
       default: 0,
     },
+    grossWeight: {
+      type: Number,
+      default: 0,
+    },
     weight: {
       type: Number,
       default: 0,
