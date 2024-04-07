@@ -74,6 +74,8 @@ const OrderForm = ({ user }: { user: IUser }) => {
           labour: item.labour,
           rate: item.rate,
           amount: item.amount,
+          purana: false,
+          userType: user.userType,
         }),
       })
         .then((res) => res.json())
@@ -95,7 +97,9 @@ const OrderForm = ({ user }: { user: IUser }) => {
           remaining: values.remaining,
         }),
       })
-        .then((res) => toast("Order Created"))
+        .then((res) =>
+          toast(res.status === 201 ? "Order Created" : "Order creation failed")
+        )
         .then((res) => navigate(-1));
     });
   };

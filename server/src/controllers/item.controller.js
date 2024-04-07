@@ -2,6 +2,7 @@ import { ApiError } from "../utils/ApiError.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { Item } from "../models/item.model.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
+import { Product } from "../models/product.model.js";
 
 const createItem = asyncHandler(async (req, res, next) => {
   try {
@@ -15,6 +16,8 @@ const createItem = asyncHandler(async (req, res, next) => {
       labour,
       rate,
       amount,
+      purana = false,
+      userType,
     } = req.body;
     if (
       !itemType ||
@@ -25,9 +28,16 @@ const createItem = asyncHandler(async (req, res, next) => {
       !weight ||
       !labour ||
       !rate ||
-      !amount
+      !amount ||
+      !userType
     )
       throw new ApiError(400, "All fields are required.");
+
+    if (!(userType === "agent" || userType === "customer"))
+      throw new ApiError(400, "User Type must be agent or customer");
+
+    if (!(itemType === "gold" || itemType === "silver" || itemType === "stone"))
+      throw new ApiError(400, "Item Type must be gold or silver or stone");
 
     const item = await Item.create({
       itemType: itemType,
@@ -40,6 +50,29 @@ const createItem = asyncHandler(async (req, res, next) => {
       rate: rate,
       amount: amount,
     });
+
+    const product = await Product.find({ productType: itemType, name: name });
+    if (product.length === 0) {
+      const stockChange =
+        userType === "agent" ? (purana ? 0 : weight) : purana ? weight : 0;
+      await Product.create({
+        productType: itemType,
+        name: name,
+        stock: stockChange,
+      });
+    } else {
+      const stockChange =
+        userType === "agent"
+          ? purana
+            ? -weight
+            : weight
+          : purana
+          ? weight
+          : -weight;
+      await Product.findByIdAndUpdate(product[0]._id, {
+        $inc: { stock: stockChange },
+      });
+    }
 
     res.status(201).json(new ApiResponse(201, "Item created", item._id));
   } catch (error) {
