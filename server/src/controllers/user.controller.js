@@ -64,6 +64,22 @@ const updateUser = asyncHandler(async (req, res, next) => {
   }
 });
 
+const getUser = asyncHandler(async (req, res, next) => {
+  try {
+    const { userId } = req.params;
+
+    const user = await User.findById(userId);
+    if (!user) throw new ApiError(404, "User does not exist");
+
+    return res.status(200).json(new ApiResponse(200, "User Found", user));
+  } catch (error) {
+    throw new ApiError(
+      error.status || 500,
+      error.message || "Something went wrong while finding user"
+    );
+  }
+});
+
 const getAllAgents = asyncHandler(async (req, res, next) => {
   try {
     const agents = await User.aggregate([
@@ -201,6 +217,7 @@ const getUserOrders = asyncHandler(async (req, res, next) => {
 export {
   registerUser,
   updateUser,
+  getUser,
   getAllAgents,
   getAllCustomers,
   getUserOrders,
