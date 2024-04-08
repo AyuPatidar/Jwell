@@ -1,10 +1,10 @@
-import { Box, Grid, Typography } from "@mui/material";
-import Sidebar from "../components/Sidebar";
+import { Box, Typography } from "@mui/material";
+import Navbar from "../components/Navbar";
 
 const HomePage = () => {
   return (
     <>
-      <Sidebar />
+      <Navbar />
       <Box
         display={"flex"}
         justifyContent={"center"}

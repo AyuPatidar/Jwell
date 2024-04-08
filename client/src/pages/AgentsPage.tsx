@@ -1,5 +1,5 @@
 import { Box, Button, Grid, Typography } from "@mui/material";
-import Sidebar from "../components/Sidebar";
+import Navbar from "../components/Navbar";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { IUser } from "../interfaces/user.interface";
@@ -20,7 +20,7 @@ const AgentsPage = () => {
 
   return (
     <>
-      <Sidebar />
+      <Navbar />
       <Box
         mx={16}
         my={2}

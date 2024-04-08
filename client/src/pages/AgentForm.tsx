@@ -1,4 +1,4 @@
-import Sidebar from "../components/Sidebar";
+import Navbar from "../components/Navbar";
 import UserForm from "../components/UserForm";
 import { useLocation } from "react-router-dom";
 
@@ -8,7 +8,7 @@ const AgentForm = () => {
 
   return (
     <>
-      <Sidebar />
+      <Navbar />
       <UserForm
         userType={"agent"}
         user={user || null}

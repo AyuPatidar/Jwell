@@ -1,5 +1,5 @@
 import { Grid } from "@mui/material";
-import Sidebar from "../components/Sidebar";
+import Navbar from "../components/Navbar";
 import { useLocation } from "react-router-dom";
 import { IOrder } from "../interfaces/order.interface";
 import OrderItemsTable from "../components/OrderItemsTable";
@@ -15,7 +15,7 @@ const OrderPage = () => {
         md={2}
         lg={2}
       >
-        <Sidebar />
+        <Navbar />
       </Grid>
       <Grid
         container

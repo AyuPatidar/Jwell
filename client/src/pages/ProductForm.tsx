@@ -1,4 +1,4 @@
-import Sidebar from "../components/Sidebar";
+import Navbar from "../components/Navbar";
 import { API_BaseUrl } from "../constants";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -48,7 +48,7 @@ const ProductForm = () => {
 
   return (
     <>
-      <Sidebar />
+      <Navbar />
       <Box
         display={"flex"}
         justifyContent={"center"}

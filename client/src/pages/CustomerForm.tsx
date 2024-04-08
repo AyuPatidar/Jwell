@@ -1,5 +1,5 @@
 import { Grid } from "@mui/material";
-import Sidebar from "../components/Sidebar";
+import Navbar from "../components/Navbar";
 import UserForm from "../components/UserForm";
 import { useLocation } from "react-router-dom";
 
@@ -14,7 +14,7 @@ const CustomerForm = () => {
         md={2}
         lg={2}
       >
-        <Sidebar />
+        <Navbar />
       </Grid>
       <Grid
         item

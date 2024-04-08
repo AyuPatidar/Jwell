@@ -1,4 +1,4 @@
-import Sidebar from "../components/Sidebar";
+import Navbar from "../components/Navbar";
 import OrderForm from "../components/OrderForm";
 import { useLocation } from "react-router-dom";
 
@@ -8,7 +8,7 @@ const AgentsOrderForm = () => {
 
   return (
     <>
-      <Sidebar />
+      <Navbar />
       <OrderForm user={user} />
     </>
   );

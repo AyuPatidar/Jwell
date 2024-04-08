@@ -1,4 +1,4 @@
-import { AppBar, Grid, Button, Toolbar, Typography, Box } from "@mui/material";
+import { AppBar, Button, Typography, Box } from "@mui/material";
 import { Diamond } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 
@@ -8,7 +8,7 @@ const pages = [
   { path: "/products", name: "Products" },
 ];
 
-const Sidebar = () => {
+const Navbar = () => {
   const navigate = useNavigate();
   return (
     <AppBar position="sticky">
@@ -62,4 +62,4 @@ const Sidebar = () => {
   );
 };
 
-export default Sidebar;
+export default Navbar;

@@ -12,7 +12,7 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import Sidebar from "../components/Sidebar";
+import Navbar from "../components/Navbar";
 import { useEffect, useState } from "react";
 import { API_BaseUrl } from "../constants";
 import { useNavigate } from "react-router-dom";
@@ -63,7 +63,7 @@ const ProductsPage = () => {
 
   return (
     <>
-      <Sidebar />
+      <Navbar />
       <Box
         mx={16}
         my={2}
