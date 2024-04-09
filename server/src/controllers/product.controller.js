@@ -3,7 +3,7 @@ import { Product } from "../models/product.model.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 
-const createProduct = asyncHandler(async (req, res, next) => {
+const createOrUpdateProduct = asyncHandler(async (req, res, next) => {
   try {
     const { productType, name, stock = 0 } = req.body;
 
@@ -19,11 +19,11 @@ const createProduct = asyncHandler(async (req, res, next) => {
     )
       throw new ApiError(400, "Product Type must be gold or silver or stone");
 
-    const product = await Product.create({
-      productType: productType,
-      name: name,
-      stock: stock,
-    });
+    const product = await Product.findOneAndUpdate(
+      { productType: productType, name: name },
+      { $inc: { stock: stock } },
+      { new: true, upsert: true }
+    );
 
     res.status(201).json(new ApiResponse(201, "Product created", product));
   } catch (error) {
@@ -49,4 +49,4 @@ const getAllProducts = asyncHandler(async (req, res, next) => {
   }
 });
 
-export { createProduct, getAllProducts };
+export { createOrUpdateProduct, getAllProducts };
