@@ -9,23 +9,13 @@ const OrderPage = () => {
   const { order }: { order: IOrder } = location.state;
 
   return (
-    <Grid container>
-      <Grid
-        item
-        md={2}
-        lg={2}
-      >
-        <Navbar />
-      </Grid>
+    <>
+      <Navbar />
       <Grid
         container
-        item
-        display={"flex"}
-        md={10}
-        lg={10}
+        direction={"column"}
         justifyContent={"center"}
         alignItems={"center"}
-        direction={"column"}
       >
         <Grid item>
           <pre>{JSON.stringify(order, null, 4)}</pre>
@@ -34,7 +24,7 @@ const OrderPage = () => {
           <OrderItemsTable orderId={order._id} />
         </Grid>
       </Grid>
-    </Grid>
+    </>
   );
 };
 

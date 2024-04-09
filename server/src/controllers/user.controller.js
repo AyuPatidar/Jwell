@@ -128,7 +128,7 @@ const createUserOrder = asyncHandler(async (req, res, next) => {
       throw new ApiError(400, "Order Type and khareedOrBakaya are required");
 
     if (khareedOrBakaya.toLowerCase().trim() === "khareed") {
-      if (!items || !finalAmount || !paid || !remaining)
+      if (!items || !finalAmount)
         throw new ApiError(
           400,
           "Final Amount, paid, remaining & items are required"

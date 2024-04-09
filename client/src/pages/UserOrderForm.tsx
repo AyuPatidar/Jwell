@@ -2,7 +2,7 @@ import Navbar from "../components/Navbar";
 import OrderForm from "../components/OrderForm";
 import { useLocation } from "react-router-dom";
 
-const AgentsOrderForm = () => {
+const UserOrderForm = () => {
   const location = useLocation();
   const { user } = location.state;
 
@@ -14,4 +14,4 @@ const AgentsOrderForm = () => {
   );
 };
 
-export default AgentsOrderForm;
+export default UserOrderForm;

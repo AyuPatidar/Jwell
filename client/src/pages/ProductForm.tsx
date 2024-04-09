@@ -37,7 +37,7 @@ const ProductForm = () => {
       body: JSON.stringify({
         productType: values.productType.toLowerCase(),
         name: values.name.toLowerCase(),
-        stock: values.stock,
+        stock: values.stock === "" ? 0 : values.stock,
       }),
     })
       .then((res) => res.json())
@@ -145,7 +145,7 @@ const ProductForm = () => {
                     </Button>
                   </Grid>
                 </Grid>
-                {/* <pre>{JSON.stringify({ values, errors }, null, 4)}</pre> */}
+                <pre>{JSON.stringify({ values, errors }, null, 4)}</pre>
               </Form>
             )}
           </Formik>

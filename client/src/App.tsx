@@ -7,20 +7,18 @@ import AgentForm from "./pages/AgentForm";
 import CustomerForm from "./pages/CustomerForm";
 import UserPage from "./pages/UserPage";
 import "react-toastify/dist/ReactToastify.css";
-import AgentsOrderForm from "./pages/AgentsOrderForm";
-import CustomersOrderForm from "./pages/CustomersOrderForm";
 import OrderPage from "./pages/OrderPage";
 import ProductsPage from "./pages/ProductsPage";
 import ProductForm from "./pages/ProductForm";
+import UserOrderForm from "./pages/UserOrderForm";
 
 const routes = [
   { path: "/", element: <HomePage /> },
   { path: "/agents", element: <AgentsPage /> },
   { path: "/agents/form", element: <AgentForm /> },
-  { path: "/agents/:userId/orders/form", element: <AgentsOrderForm /> },
+  { path: "/users/:userId/orders/form", element: <UserOrderForm /> },
   { path: "/customers", element: <CustomersPage /> },
   { path: "/customers/form", element: <CustomerForm /> },
-  { path: "/customers/:userId/orders/form", element: <CustomersOrderForm /> },
   { path: "/user/:userId", element: <UserPage /> },
   { path: "/orders/:orderId", element: <OrderPage /> },
   { path: "/products", element: <ProductsPage /> },
