@@ -16,6 +16,7 @@ const Navbar = () => {
         display={"flex"}
         justifyContent={"space-between"}
         alignContent={"center"}
+        mx={2}
       >
         <Box
           display={"flex"}
@@ -50,7 +51,7 @@ const Navbar = () => {
           {pages.map((page) => (
             <Button
               key={page.path}
-              sx={{ my: 2, color: "white", display: "block" }}
+              sx={{ mx: 1, my: 2, color: "white", display: "block" }}
               onClick={() => navigate(page.path)}
             >
               {page.name}
