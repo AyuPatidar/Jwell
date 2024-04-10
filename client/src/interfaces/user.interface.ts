@@ -4,7 +4,6 @@ export interface IUser {
   name: string;
   address: string;
   phoneNo: string;
-  orders: string[] | null;
   totalOrders: number;
   paid: number;
   remaining: number;
