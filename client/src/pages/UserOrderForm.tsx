@@ -1,4 +1,11 @@
-import { Grid } from "@mui/material";
+import {
+  FormControl,
+  FormControlLabel,
+  Grid,
+  Radio,
+  RadioGroup,
+  Typography,
+} from "@mui/material";
 import { useState } from "react";
 import BakayaForm from "../components/BakayaForm";
 import KhareedForm from "../components/KhareedForm";
@@ -19,29 +26,35 @@ const UserOrderForm = () => {
         direction={"column"}
         alignItems={"center"}
       >
+        {/* Khareed or Bakaya */}
         <Grid item>
-          <form>
-            <fieldset>
-              <legend>Please specify the order type</legend>
-              <input
-                type="radio"
-                id="khareed"
-                name="khareedOrBakaya"
-                value={khareedOrBakaya}
-                onChange={() => setKhareedOrBakaya("khareed")}
-              />
-              <label htmlFor="khareed">Khareed</label>
-              <input
-                type="radio"
-                name="khareedOrBakaya"
-                id="bakaya"
-                value={khareedOrBakaya}
-                onChange={() => setKhareedOrBakaya("bakaya")}
-              />
-              <label htmlFor="bakaya">Bakaya</label>
-              <br></br>
-            </fieldset>
-          </form>
+          <fieldset>
+            <legend>
+              <Typography
+                variant="button"
+                fontSize={16}
+                fontWeight={600}
+              >
+                Order Type
+              </Typography>
+            </legend>
+            <FormControl>
+              <RadioGroup row>
+                <FormControlLabel
+                  value="khareed"
+                  control={<Radio />}
+                  label="Khareed"
+                  onChange={() => setKhareedOrBakaya("khareed")}
+                />
+                <FormControlLabel
+                  value="bakaya"
+                  control={<Radio />}
+                  label="Bakaya"
+                  onChange={() => setKhareedOrBakaya("bakaya")}
+                />
+              </RadioGroup>
+            </FormControl>
+          </fieldset>
         </Grid>
         <Grid item>
           {/* khareed */}
