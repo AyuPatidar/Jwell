@@ -13,47 +13,44 @@ const OrdersTable = ({ userId }: { userId: string }) => {
       .then((res) => setOrders(res.data));
   }, []);
   return (
-    <>
-      <h1>Orders</h1>
-      <table
-        cellSpacing={3}
-        border={3}
-      >
-        <thead>
-          <tr>
-            <th>Order No</th>
-            <th>Date</th>
-            <th>Type</th>
-            <th>Final Amount</th>
-            <th>Paid</th>
-            <th>Remaining</th>
+    <table
+      cellSpacing={3}
+      border={3}
+    >
+      <thead>
+        <tr>
+          <th>Order No</th>
+          <th>Date</th>
+          <th>Type</th>
+          <th>Final Amount</th>
+          <th>Paid</th>
+          <th>Remaining</th>
+        </tr>
+      </thead>
+      <tbody>
+        {orders.map((order: IOrder) => (
+          <tr key={order._id}>
+            <td
+              onClick={() => {
+                if (order.khareedOrBakaya.toLowerCase().trim() === "khareed")
+                  navigate(`/orders/${order._id}`, {
+                    state: {
+                      order: order,
+                    },
+                  });
+              }}
+            >
+              {order.orderNo}
+            </td>
+            <td>{order.createdAt}</td>
+            <td>{order.khareedOrBakaya}</td>
+            <td>{order.finalAmount}</td>
+            <td>{order.paid}</td>
+            <td>{order.remaining}</td>
           </tr>
-        </thead>
-        <tbody>
-          {orders.map((order: IOrder) => (
-            <tr key={order._id}>
-              <td
-                onClick={() => {
-                  if (order.khareedOrBakaya.toLowerCase().trim() === "khareed")
-                    navigate(`/orders/${order._id}`, {
-                      state: {
-                        order: order,
-                      },
-                    });
-                }}
-              >
-                {order.orderNo}
-              </td>
-              <td>{order.createdAt}</td>
-              <td>{order.khareedOrBakaya}</td>
-              <td>{order.finalAmount}</td>
-              <td>{order.paid}</td>
-              <td>{order.remaining}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </>
+        ))}
+      </tbody>
+    </table>
   );
 };
 
