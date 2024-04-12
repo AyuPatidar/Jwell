@@ -145,7 +145,7 @@ const ProductForm = () => {
                     </Button>
                   </Grid>
                 </Grid>
-                <pre>{JSON.stringify({ values, errors }, null, 4)}</pre>
+                {/* <pre>{JSON.stringify({ values, errors }, null, 4)}</pre> */}
               </Form>
             )}
           </Formik>
