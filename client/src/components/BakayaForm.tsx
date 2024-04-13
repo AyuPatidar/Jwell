@@ -1,8 +1,9 @@
-import { Formik, Form } from "formik";
+import { Formik, Form, ErrorMessage } from "formik";
 import * as yup from "yup";
 import { API_BaseUrl } from "../constants";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { Box, Button, Grid, TextField } from "@mui/material";
 
 interface IProps {
   userType: string;
@@ -35,30 +36,66 @@ const BakayaForm = ({ userType, userId }: IProps) => {
   };
 
   return (
-    <Formik
-      initialValues={{
-        paid: 0,
-      }}
-      onSubmit={handlebakayaSubmit}
-      validationSchema={bakayaOrderSchema}
+    <Box
+      display={"flex"}
+      justifyContent={"center"}
+      alignItems={"center"}
+      height={"60vh"}
     >
-      {({ values, errors, setFieldValue }) => (
-        <Form>
-          <label htmlFor="paid">Amount: </label>
-          <input
-            id="paid"
-            type="paid"
-            name="paid"
-            value={values.paid}
-            onChange={(e) => {
-              setFieldValue(`paid`, e.target.value);
-            }}
-          />
-          <pre>{JSON.stringify({ values, errors }, null, 4)}</pre>
-          <button type="submit">Submit</button>
-        </Form>
-      )}
-    </Formik>
+      <Formik
+        initialValues={{
+          paid: 0,
+        }}
+        onSubmit={handlebakayaSubmit}
+        validationSchema={bakayaOrderSchema}
+      >
+        {({ values, errors, touched, isSubmitting, handleChange }) => (
+          <Form>
+            <Grid
+              container
+              justifyContent={"center"}
+              alignItems={"center"}
+              direction={"column"}
+              spacing={2}
+            >
+              <Grid item>
+                <Box
+                  display={"flex"}
+                  flexDirection={"column"}
+                  justifyContent={"center"}
+                  alignItems={"center"}
+                >
+                  <TextField
+                    id="paid"
+                    name="paid"
+                    type="tel"
+                    label="Amount"
+                    value={values.paid}
+                    onChange={handleChange}
+                  />
+                  {errors.paid && touched.paid && (
+                    <span style={{ color: "red" }}>
+                      <ErrorMessage name="paid" />
+                    </span>
+                  )}
+                </Box>
+              </Grid>
+              {/* <pre>{JSON.stringify({ values, errors }, null, 4)}</pre> */}
+              <Grid item>
+                <Button
+                  type="submit"
+                  size="large"
+                  variant="contained"
+                  disabled={isSubmitting}
+                >
+                  Submit
+                </Button>
+              </Grid>
+            </Grid>
+          </Form>
+        )}
+      </Formik>
+    </Box>
   );
 };
 

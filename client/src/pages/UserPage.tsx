@@ -105,6 +105,9 @@ const UserPage = () => {
           <Grid
             container
             item
+            justifyContent={"center"}
+            alignItems={"center"}
+            spacing={2}
           >
             {/* Heading */}
             <Grid
