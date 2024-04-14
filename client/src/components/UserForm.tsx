@@ -3,14 +3,9 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { API_BaseUrl } from "../constants";
 import * as yup from "yup";
-import {
-  ErrorMessage,
-  Form,
-  Formik,
-  FormikHelpers,
-  FormikValues,
-} from "formik";
+import { Form, Formik, FormikHelpers, FormikValues } from "formik";
 import { Box, Button, Grid, TextField } from "@mui/material";
+import FormikErrorMessage from "./FormikErrorMessage";
 
 const UserForm = ({ userType, user }: { userType: string; user?: IUser }) => {
   const navigate = useNavigate();
@@ -103,11 +98,7 @@ const UserForm = ({ userType, user }: { userType: string; user?: IUser }) => {
                     onChange={handleChange}
                     sx={{ width: "300px" }}
                   />
-                  {errors.name && touched.name && (
-                    <span style={{ color: "red" }}>
-                      <ErrorMessage name="name" />
-                    </span>
-                  )}
+                  <FormikErrorMessage name={"name"} />
                 </Box>
               </Grid>
               <Grid item>
@@ -124,11 +115,7 @@ const UserForm = ({ userType, user }: { userType: string; user?: IUser }) => {
                     onChange={handleChange}
                     sx={{ width: "300px" }}
                   />
-                  {errors.phoneNo && touched.phoneNo && (
-                    <span style={{ color: "red" }}>
-                      <ErrorMessage name="phoneNo" />
-                    </span>
-                  )}
+                  <FormikErrorMessage name={"phoneNo"} />
                 </Box>
               </Grid>
               <Grid item>
@@ -145,11 +132,7 @@ const UserForm = ({ userType, user }: { userType: string; user?: IUser }) => {
                     onChange={handleChange}
                     sx={{ width: "300px" }}
                   />
-                  {errors.address && touched.address && (
-                    <span style={{ color: "red" }}>
-                      <ErrorMessage name="address" />
-                    </span>
-                  )}
+                  <FormikErrorMessage name={"address"} />
                 </Box>
               </Grid>
               <Grid item>

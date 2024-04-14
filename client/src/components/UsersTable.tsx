@@ -69,8 +69,9 @@ const UsersTable = ({ users }: { users: IUser[] }) => {
         <Table stickyHeader>
           <TableHead>
             <TableRow>
-              {columns.map((column) => (
+              {columns.map((column, index) => (
                 <TableCell
+                  key={index}
                   style={{
                     minWidth: column.minWidth,
                   }}

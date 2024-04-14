@@ -3,6 +3,15 @@ import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import { API_BaseUrl } from "../constants";
 import { toast } from "react-toastify";
+import {
+  Autocomplete,
+  Box,
+  Button,
+  Grid,
+  TextField,
+  Typography,
+} from "@mui/material";
+import FormikErrorMessage from "./FormikErrorMessage";
 
 interface IProps {
   userType: string;
@@ -19,18 +28,18 @@ const KhareedForm = ({ userType, userId }: IProps) => {
       {
         itemType: "",
         name: "",
-        tunch: 0,
-        wastage: 0,
-        grossWeight: 0,
-        weight: 0,
-        labour: 0,
-        rate: 0,
-        amount: 0,
+        tunch: null,
+        wastage: null,
+        grossWeight: null,
+        weight: null,
+        labour: null,
+        rate: null,
+        amount: null,
       },
     ],
-    finalAmount: 0,
-    paid: 0,
-    remaining: 0,
+    finalAmount: null,
+    paid: null,
+    remaining: null,
   };
 
   const khareedOrderSchema = yup.object().shape({
@@ -39,7 +48,7 @@ const KhareedForm = ({ userType, userId }: IProps) => {
         yup.object().shape({
           itemType: yup
             .string()
-            .oneOf(["gold", "silver", "stone"])
+            .oneOf(["Gold", "Silver", "Stone"])
             .required("Required"),
           name: yup.string().required("Required"),
           tunch: yup.number().positive().required("Required"),
@@ -57,7 +66,7 @@ const KhareedForm = ({ userType, userId }: IProps) => {
     remaining: yup.number(),
   });
 
-  const handleKhareedSubmit = (values: any, actions: any) => {
+  const handleKhareedSubmit = (values: any) => {
     const apiCalls = [];
     for (var item of values.items) {
       const apiCall = fetch(`${API_BaseUrl}/items/new-item`, {
@@ -66,8 +75,8 @@ const KhareedForm = ({ userType, userId }: IProps) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          itemType: item.itemType,
-          name: item.name,
+          itemType: item.itemType.toLowerCase(),
+          name: item.name.toLowerCase(),
           tunch: item.tunch,
           wastage: item.wastage,
           grossWeight: item.grossWeight,
@@ -83,7 +92,7 @@ const KhareedForm = ({ userType, userId }: IProps) => {
         .then((res) => items.push(res.data));
       apiCalls.push(apiCall);
     }
-    Promise.all(apiCalls).then((results) => {
+    Promise.all(apiCalls).then(() => {
       fetch(`${API_BaseUrl}/users/${userId}/new-order`, {
         method: "POST",
         headers: {
@@ -106,183 +115,334 @@ const KhareedForm = ({ userType, userId }: IProps) => {
   };
 
   return (
-    <Formik
-      initialValues={khareedInitialValues}
-      onSubmit={handleKhareedSubmit}
-      validationSchema={khareedOrderSchema}
+    <Box
+      mx={4}
+      my={2}
     >
-      {({ values, errors, handleChange, setFieldValue, isSubmitting }) => (
-        <Form>
-          <FieldArray name="items">
-            {({ push, remove }) => (
-              <>
-                {values.items.map((item, index) => (
-                  <div key={index}>
-                    <h2>Product {index + 1}</h2>
-                    <br />
-                    <label htmlFor="itemType">Product Type: </label>
-                    <input
-                      id="itemType"
-                      type="text"
-                      name="itemType"
-                      value={item.itemType}
-                      onChange={(e) => {
-                        setFieldValue(
-                          `items[${index}].itemType`,
-                          e.target.value
-                        );
-                      }}
-                    />
-                    <br />
-                    <label htmlFor="name">Name: </label>
-                    <input
-                      id="paid"
-                      type="text"
-                      name="paid"
-                      value={item.name}
-                      onChange={(e) => {
-                        setFieldValue(`items[${index}].name`, e.target.value);
-                      }}
-                    />
-                    <br />
-                    <label htmlFor="tunch">Tunch: </label>
-                    <input
-                      id="tunch"
+      <Formik
+        initialValues={khareedInitialValues}
+        onSubmit={handleKhareedSubmit}
+        validationSchema={khareedOrderSchema}
+      >
+        {({ values, setFieldValue, isSubmitting }) => (
+          <Form>
+            <Grid
+              container
+              spacing={2}
+              justifyContent={"center"}
+              alignItems={"center"}
+              direction={"column"}
+            >
+              <Grid item>
+                <Typography variant="h4">NEW PRODUCTS</Typography>
+              </Grid>
+              <Grid item>
+                <FieldArray name="items">
+                  {({ push, remove }) => (
+                    <Grid
+                      container
+                      justifyContent={"center"}
+                      alignItems={"center"}
+                      spacing={2}
+                    >
+                      {values.items.map((item, index) => (
+                        <Grid
+                          item
+                          container
+                          key={index}
+                          spacing={2}
+                        >
+                          <Grid item>
+                            <Typography variant="h4">{index + 1}.</Typography>
+                          </Grid>
+                          <Grid item>
+                            <Autocomplete
+                              fullWidth
+                              options={["Gold", "Silver", "Stone"]}
+                              value={item.itemType || null}
+                              onChange={(event, newValue) =>
+                                setFieldValue(
+                                  `items[${index}].itemType`,
+                                  newValue
+                                )
+                              }
+                              size="small"
+                              renderInput={(params) => (
+                                <TextField
+                                  {...params}
+                                  label="Type"
+                                />
+                              )}
+                            />
+                            <FormikErrorMessage
+                              name={`items[${index}].itemType`}
+                            />
+                          </Grid>
+                          <Grid
+                            item
+                            display={"flex"}
+                            flexDirection={"column"}
+                          >
+                            <TextField
+                              type="text"
+                              label="Name"
+                              value={item.name}
+                              size="small"
+                              onChange={(e) =>
+                                setFieldValue(
+                                  `items[${index}].name`,
+                                  e.target.value
+                                )
+                              }
+                            />
+                            <FormikErrorMessage name={`items[${index}].name`} />
+                          </Grid>
+                          <Grid
+                            item
+                            display={"flex"}
+                            flexDirection={"column"}
+                          >
+                            <TextField
+                              type="tel"
+                              label="Tunch"
+                              value={item.tunch}
+                              size="small"
+                              onChange={(e) =>
+                                setFieldValue(
+                                  `items[${index}].tunch`,
+                                  e.target.value
+                                )
+                              }
+                            />
+                            <FormikErrorMessage
+                              name={`items[${index}].tunch`}
+                            />
+                          </Grid>
+                          <Grid
+                            item
+                            display={"flex"}
+                            flexDirection={"column"}
+                          >
+                            <TextField
+                              type="tel"
+                              label="Wastage"
+                              value={item.wastage}
+                              size="small"
+                              onChange={(e) =>
+                                setFieldValue(
+                                  `items[${index}].wastage`,
+                                  e.target.value
+                                )
+                              }
+                            />
+                            <FormikErrorMessage
+                              name={`items[${index}].wastage`}
+                            />
+                          </Grid>
+                          <Grid
+                            item
+                            display={"flex"}
+                            flexDirection={"column"}
+                          >
+                            <TextField
+                              type="tel"
+                              label="Gross Weight"
+                              value={item.grossWeight}
+                              size="small"
+                              onChange={(e) =>
+                                setFieldValue(
+                                  `items[${index}].grossWeight`,
+                                  e.target.value
+                                )
+                              }
+                            />
+                            <FormikErrorMessage
+                              name={`items[${index}].grossWeight`}
+                            />
+                          </Grid>
+                          <Grid
+                            item
+                            display={"flex"}
+                            flexDirection={"column"}
+                          >
+                            <TextField
+                              type="tel"
+                              label="Weight"
+                              value={item.weight}
+                              size="small"
+                              onChange={(e) =>
+                                setFieldValue(
+                                  `items[${index}].weight`,
+                                  e.target.value
+                                )
+                              }
+                            />
+                            <FormikErrorMessage
+                              name={`items[${index}].weight`}
+                            />
+                          </Grid>
+                          <Grid
+                            item
+                            display={"flex"}
+                            flexDirection={"column"}
+                          >
+                            <TextField
+                              type="tel"
+                              label="Labour"
+                              value={item.labour}
+                              size="small"
+                              onChange={(e) =>
+                                setFieldValue(
+                                  `items[${index}].labour`,
+                                  e.target.value
+                                )
+                              }
+                            />
+                            <FormikErrorMessage
+                              name={`items[${index}].labour`}
+                            />
+                          </Grid>
+                          <Grid
+                            item
+                            display={"flex"}
+                            flexDirection={"column"}
+                          >
+                            <TextField
+                              type="tel"
+                              label="Rate"
+                              value={item.rate}
+                              size="small"
+                              onChange={(e) =>
+                                setFieldValue(
+                                  `items[${index}].rate`,
+                                  e.target.value
+                                )
+                              }
+                            />
+                            <FormikErrorMessage name={`items[${index}].rate`} />
+                          </Grid>
+                          <Grid
+                            item
+                            display={"flex"}
+                            flexDirection={"column"}
+                          >
+                            <TextField
+                              type="tel"
+                              label="Amount"
+                              value={item.amount}
+                              size="small"
+                              onChange={(e) =>
+                                setFieldValue(
+                                  `items[${index}].amount`,
+                                  e.target.value
+                                )
+                              }
+                            />
+                            <FormikErrorMessage
+                              name={`items[${index}].amount`}
+                            />
+                          </Grid>
+                          <Grid item>
+                            {index > 0 && (
+                              <Button
+                                variant="contained"
+                                size="large"
+                                onClick={() => remove(index)}
+                                type="button"
+                              >
+                                Remove Product
+                              </Button>
+                            )}
+                          </Grid>
+                        </Grid>
+                      ))}
+                      <Grid item>
+                        <Button
+                          variant="contained"
+                          // size="large"
+                          onClick={() => push(khareedInitialValues.items[0])}
+                        >
+                          Add New Product
+                        </Button>
+                      </Grid>
+                    </Grid>
+                  )}
+                </FieldArray>
+              </Grid>
+              <Grid item>
+                <Typography variant="h4">OLD PRODUCTS</Typography>
+              </Grid>
+              <Grid
+                item
+                display={"flex"}
+                flexDirection={"column"}
+              >
+                <Grid
+                  item
+                  container
+                  spacing={2}
+                >
+                  <Grid
+                    item
+                    display={"flex"}
+                    flexDirection={"column"}
+                  >
+                    <TextField
                       type="tel"
-                      name="tunch"
-                      value={item.tunch}
-                      onChange={(e) => {
-                        setFieldValue(`items[${index}].tunch`, e.target.value);
-                      }}
+                      label="Final Amount"
+                      value={values.finalAmount}
+                      onChange={(e) =>
+                        setFieldValue(`finalAmount`, e.target.value)
+                      }
                     />
-                    <br />
-                    <label htmlFor="wastage">Wastage: </label>
-                    <input
-                      id="wastage"
+                    <FormikErrorMessage name={`finalAmount`} />
+                  </Grid>
+                  <Grid
+                    item
+                    display={"flex"}
+                    flexDirection={"column"}
+                  >
+                    <TextField
                       type="tel"
-                      name="wastage"
-                      value={item.wastage}
-                      onChange={(e) => {
-                        setFieldValue(
-                          `items[${index}].wastage`,
-                          e.target.value
-                        );
-                      }}
+                      label="Paid"
+                      value={values.paid}
+                      onChange={(e) => setFieldValue(`paid`, e.target.value)}
                     />
-                    <br />
-                    <label htmlFor="grossWeight">Gross Weight: </label>
-                    <input
-                      id="grossWeight"
-                      type="text"
-                      name="grossWeight"
-                      value={item.grossWeight}
-                      onChange={(e) => {
-                        setFieldValue(
-                          `items[${index}].grossWeight`,
-                          e.target.value
-                        );
-                      }}
-                    />
-                    <br />
-                    <label htmlFor="weight">Weight: </label>
-                    <input
-                      id="weight"
+                    <FormikErrorMessage name={`paid`} />
+                  </Grid>
+                  <Grid
+                    item
+                    display={"flex"}
+                    flexDirection={"column"}
+                  >
+                    <TextField
                       type="tel"
-                      name="weight"
-                      value={item.weight}
-                      onChange={(e) => {
-                        setFieldValue(`items[${index}].weight`, e.target.value);
-                      }}
+                      label="Remaining"
+                      value={values.remaining}
+                      onChange={(e) =>
+                        setFieldValue(`remaining`, e.target.value)
+                      }
                     />
-                    <br />
-                    <label htmlFor="labour">labour: </label>
-                    <input
-                      id="labour"
-                      type="tel"
-                      name="labour"
-                      value={item.labour}
-                      onChange={(e) => {
-                        setFieldValue(`items[${index}].labour`, e.target.value);
-                      }}
-                    />
-                    <br />
-                    <label htmlFor="rate">Rate: </label>
-                    <input
-                      id="rate"
-                      type="tel"
-                      name="rate"
-                      value={item.rate}
-                      onChange={(e) => {
-                        setFieldValue(`items[${index}].rate`, e.target.value);
-                      }}
-                    />
-                    <br />
-                    <label htmlFor="amount">Amount: </label>
-                    <input
-                      id="amount"
-                      type="tel"
-                      name="amount"
-                      value={item.amount}
-                      onChange={(e) => {
-                        setFieldValue(`items[${index}].amount`, e.target.value);
-                      }}
-                    />
-                    {index > 0 && (
-                      <button
-                        onClick={() => remove(index)}
-                        type="button"
-                      >
-                        Remove Product
-                      </button>
-                    )}
-                  </div>
-                ))}
-                <br />
-                <button onClick={() => push(khareedInitialValues.items[0])}>
-                  Add Product
-                </button>
-              </>
-            )}
-          </FieldArray>
-
-          <br />
-          <br />
-          <label htmlFor="finalAmount">Final Amount: </label>
-          <input
-            id="finalAmount"
-            type="tel"
-            name="finalAmount"
-            value={values.finalAmount}
-            onChange={handleChange}
-          />
-          <br />
-          <label htmlFor="paid">Paid: </label>
-          <input
-            id="paid"
-            type="tel"
-            name="paid"
-            value={values.paid}
-            onChange={handleChange}
-          />
-          <br />
-          <label htmlFor="remaining">Remaining: </label>
-          <input
-            id="remaining"
-            type="tel"
-            name="remaining"
-            value={values.remaining}
-            onChange={handleChange}
-          />
-          <button
-            type="submit"
-            disabled={isSubmitting}
-          >
-            Submit
-          </button>
-          <pre>{JSON.stringify({ values, errors }, null, 4)}</pre>
-        </Form>
-      )}
-    </Formik>
+                    <FormikErrorMessage name={`remaining`} />
+                  </Grid>
+                </Grid>
+              </Grid>
+              <Grid item>
+                <Button
+                  variant="contained"
+                  size="large"
+                  type="submit"
+                  disabled={isSubmitting}
+                >
+                  Submit
+                </Button>
+              </Grid>
+            </Grid>
+            {/* <pre>{JSON.stringify({ values, errors }, null, 4)}</pre> */}
+          </Form>
+        )}
+      </Formik>
+    </Box>
   );
 };
 

@@ -1,9 +1,10 @@
-import { Formik, Form, ErrorMessage } from "formik";
+import { Formik, Form } from "formik";
 import * as yup from "yup";
 import { API_BaseUrl } from "../constants";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { Box, Button, Grid, TextField } from "@mui/material";
+import FormikErrorMessage from "./FormikErrorMessage";
 
 interface IProps {
   userType: string;
@@ -44,12 +45,12 @@ const BakayaForm = ({ userType, userId }: IProps) => {
     >
       <Formik
         initialValues={{
-          paid: 0,
+          paid: null,
         }}
         onSubmit={handlebakayaSubmit}
         validationSchema={bakayaOrderSchema}
       >
-        {({ values, errors, touched, isSubmitting, handleChange }) => (
+        {({ values, errors, isSubmitting, setFieldValue }) => (
           <Form>
             <Grid
               container
@@ -66,18 +67,12 @@ const BakayaForm = ({ userType, userId }: IProps) => {
                   alignItems={"center"}
                 >
                   <TextField
-                    id="paid"
-                    name="paid"
                     type="tel"
                     label="Amount"
                     value={values.paid}
-                    onChange={handleChange}
+                    onChange={(e) => setFieldValue(`paid`, e.target.value)}
                   />
-                  {errors.paid && touched.paid && (
-                    <span style={{ color: "red" }}>
-                      <ErrorMessage name="paid" />
-                    </span>
-                  )}
+                  <FormikErrorMessage name={`paid`} />
                 </Box>
               </Grid>
               {/* <pre>{JSON.stringify({ values, errors }, null, 4)}</pre> */}
