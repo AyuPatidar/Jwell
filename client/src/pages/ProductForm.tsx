@@ -11,6 +11,7 @@ import {
   Typography,
 } from "@mui/material";
 import { Form, Formik, FormikHelpers, FormikValues } from "formik";
+import FormikErrorMessage from "../components/FormikErrorMessage";
 
 const ProductForm = () => {
   const navigate = useNavigate();
@@ -21,14 +22,7 @@ const ProductForm = () => {
     stock: yup.number().min(0, "Can be minimum 0"),
   });
 
-  const handleSubmit = (
-    values: FormikValues,
-    actions: FormikHelpers<{
-      productType: string;
-      name: string;
-      stock: number;
-    }>
-  ) => {
+  const handleSubmit = (values: FormikValues) => {
     fetch(`${API_BaseUrl}/products/new-product`, {
       method: "POST",
       headers: {
@@ -75,8 +69,6 @@ const ProductForm = () => {
           >
             {({
               values,
-              errors,
-              touched,
               setFieldValue,
               handleChange,
               handleSubmit,
@@ -104,9 +96,7 @@ const ProductForm = () => {
                         />
                       )}
                     />
-                    {errors.productType && touched.productType && (
-                      <p style={{ color: "red" }}>{errors.productType}</p>
-                    )}
+                    <FormikErrorMessage name={`productType`} />
                   </Grid>
                   <Grid item>
                     <TextField
@@ -117,9 +107,7 @@ const ProductForm = () => {
                       onChange={handleChange}
                       sx={{ width: 300 }}
                     />
-                    {errors.name && touched.name && (
-                      <p style={{ color: "red" }}>{errors.name}</p>
-                    )}
+                    <FormikErrorMessage name={"name"} />
                   </Grid>
                   <Grid item>
                     <TextField
@@ -130,9 +118,7 @@ const ProductForm = () => {
                       onChange={handleChange}
                       sx={{ width: 300 }}
                     />
-                    {errors.stock && touched.stock && (
-                      <p style={{ color: "red" }}>{errors.stock}</p>
-                    )}
+                    <FormikErrorMessage name={`stock`} />
                   </Grid>
                   <Grid item>
                     <Button

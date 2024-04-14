@@ -16,14 +16,7 @@ const UserForm = ({ userType, user }: { userType: string; user?: IUser }) => {
     phoneNo: yup.string().required("Required"),
   });
 
-  const handleSubmit = (
-    values: FormikValues,
-    actions: FormikHelpers<{
-      name: string;
-      address: string;
-      phoneNo: string;
-    }>
-  ) => {
+  const handleSubmit = (values: FormikValues) => {
     if (user) {
       fetch(`${API_BaseUrl}/users/${user._id}/update`, {
         method: "PATCH",
@@ -75,7 +68,7 @@ const UserForm = ({ userType, user }: { userType: string; user?: IUser }) => {
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
-        {({ values, errors, touched, handleChange, isSubmitting }) => (
+        {({ values, handleChange, isSubmitting }) => (
           <Form>
             <Grid
               container
