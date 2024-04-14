@@ -9,6 +9,7 @@ export interface IItem {
   labour: string;
   rate: number;
   amount: number;
+  purana: boolean;
   createdAt: string;
   updatedAt: string;
 }
