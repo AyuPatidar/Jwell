@@ -49,6 +49,7 @@ const createItem = asyncHandler(async (req, res, next) => {
       labour: labour,
       rate: rate,
       amount: amount,
+      purana: purana,
     });
 
     const product = await Product.find({ productType: itemType, name: name });

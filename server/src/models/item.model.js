@@ -39,6 +39,9 @@ const itemSchema = new Schema(
       type: Number,
       required: true,
     },
+    purana: {
+      type: Boolean,
+    },
   },
   { timestamps: true }
 );
