@@ -18,7 +18,7 @@ const BakayaForm = ({ userType, userId }: IProps) => {
     paid: yup.number().positive("Must be greater than 0").required("Required"),
   });
 
-  const handlebakayaSubmit = (values: any, actions: any) => {
+  const handlebakayaSubmit = (values: any) => {
     fetch(`${API_BaseUrl}/users/${userId}/new-order`, {
       method: "POST",
       headers: {
@@ -50,7 +50,7 @@ const BakayaForm = ({ userType, userId }: IProps) => {
         onSubmit={handlebakayaSubmit}
         validationSchema={bakayaOrderSchema}
       >
-        {({ values, errors, isSubmitting, setFieldValue }) => (
+        {({ values, isSubmitting, setFieldValue }) => (
           <Form>
             <Grid
               container

@@ -133,7 +133,7 @@ const OrderPage = () => {
           </Grid>
           {/* Order Items Table */}
           <Grid item>
-            <Typography variant="h4">Products</Typography>
+            <Typography variant="h4">Order Products</Typography>
             <Paper sx={{ width: "100%", overflow: "hidden" }}>
               <TableContainer>
                 <Table stickyHeader>

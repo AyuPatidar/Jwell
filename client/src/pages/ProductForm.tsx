@@ -10,7 +10,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { Form, Formik, FormikHelpers, FormikValues } from "formik";
+import { Form, Formik, FormikValues } from "formik";
 import FormikErrorMessage from "../components/FormikErrorMessage";
 
 const ProductForm = () => {
@@ -98,7 +98,11 @@ const ProductForm = () => {
                     />
                     <FormikErrorMessage name={`productType`} />
                   </Grid>
-                  <Grid item>
+                  <Grid
+                    item
+                    display={"flex"}
+                    flexDirection={"column"}
+                  >
                     <TextField
                       id="name"
                       value={values.name}

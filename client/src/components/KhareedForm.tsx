@@ -157,7 +157,6 @@ const KhareedForm = ({ userType, userId }: IProps) => {
                           </Grid>
                           <Grid item>
                             <Autocomplete
-                              fullWidth
                               options={["Gold", "Silver", "Stone"]}
                               value={item.itemType || null}
                               onChange={(event, newValue) =>
@@ -167,6 +166,7 @@ const KhareedForm = ({ userType, userId }: IProps) => {
                                 )
                               }
                               size="small"
+                              sx={{ width: 200 }}
                               renderInput={(params) => (
                                 <TextField
                                   {...params}
