@@ -63,14 +63,13 @@ const BakayaForm = ({ userType, userId }: IProps) => {
                 <Box
                   display={"flex"}
                   flexDirection={"column"}
-                  justifyContent={"center"}
-                  alignItems={"center"}
                 >
                   <TextField
                     type="tel"
                     label="Amount"
                     value={values.paid}
                     onChange={(e) => setFieldValue(`paid`, e.target.value)}
+                    sx={{ width: 300 }}
                   />
                   <FormikErrorMessage name={`paid`} />
                 </Box>

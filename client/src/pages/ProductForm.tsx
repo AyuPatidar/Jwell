@@ -62,7 +62,7 @@ const ProductForm = () => {
             initialValues={{
               productType: "",
               name: "",
-              stock: 0,
+              stock: null,
             }}
             validationSchema={validationSchema}
             onSubmit={handleSubmit}
@@ -113,13 +113,16 @@ const ProductForm = () => {
                     />
                     <FormikErrorMessage name={"name"} />
                   </Grid>
-                  <Grid item>
+                  <Grid
+                    item
+                    display={"flex"}
+                    flexDirection={"column"}
+                  >
                     <TextField
-                      id="stock"
                       value={values.stock}
                       label="Stock"
                       type="tel"
-                      onChange={handleChange}
+                      onChange={(e) => setFieldValue(`stock`, e.target.value)}
                       sx={{ width: 300 }}
                     />
                     <FormikErrorMessage name={`stock`} />
